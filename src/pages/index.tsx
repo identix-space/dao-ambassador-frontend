@@ -1,50 +1,82 @@
-import React, {ReactNode, useEffect} from 'react';
-import {getApolloClient} from '../utils/ApolloClient';
-import {GetServerSideProps} from 'next';
-import Logo from '../../public/assets/logo.svg';
-import Cat from '../../public/assets/cat.jpg?trace';
-import Image from 'next/image';
-import {DebugDocument, DebugQuery, DebugQueryResult, useEchoMutation} from '../generated/graphql';
+import React, {ReactNode, useState} from 'react';
+import {gnosisSafe, hooks} from '../utils/gnosisSafe';
 
-export default function IndexPage(props: DebugQueryResult): ReactNode {
-    const [echo, {data, loading, error}] = useEchoMutation({variables: {text: 'Hello World'}});
-    useEffect(() => {
-        echo().then(console.log);
-    }, []);
+const {useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames} = hooks;
+
+export default function IndexPage(): ReactNode {
+    const chainId = useChainId();
+    const accounts = useAccounts();
+    const isActivating = useIsActivating();
+
+    const isActive = useIsActive();
+
+    const provider = useProvider();
+    const ENSNames = useENSNames(provider);
+
+    const [error] = useState(undefined);
 
     return (
         <div>
-            <Image height={100} width={250} src={Logo}/>
-            <h1>API URL:
-                <a href={process.env.NEXT_PUBLIC_GRAPHQL_API_URL}>{process.env.NEXT_PUBLIC_GRAPHQL_API_URL}</a>
-            </h1>
-            <h3>SSR Request: </h3>
-            <br/>
-            {/* eslint-disable-next-line no-magic-numbers */}
-            <pre>{JSON.stringify(props.data?.debug, null, 2)}</pre>
-            <hr/>
-            <br/>
             <div>
-                <h3>Client side query:</h3>
-                {
-                    error ? <div>Error</div> : loading ? <div>Loading...</div>
-                        // eslint-disable-next-line no-magic-numbers
-                        : <pre>{JSON.stringify(data, null, 2)}</pre>
-                }
+                <h1>Gnosis SBT App</h1>
+                <hr/>
             </div>
-            <Image src={Cat} width={450} height={300}/>
+            <div>
+                <button onClick={() => gnosisSafe.connectEagerly()}>Connect Gnosis Wallet</button>
+                <br/>
+                <button
+                    onClick={async () => {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        const currentSafeAddress = provider?.provider.safe.safeAddress;
+                        const resHex = await gnosisSafe.sdk?.eth.getBalance([currentSafeAddress]);
+                        const res = parseInt(resHex!, 16);
+                        // convert wei to ether
+                        const resEther = res / 1e18;
+                        // eslint-disable-next-line no-alert
+                        alert(resEther);
+                    }}>
+                    get safe balance
+                </button>
+                <br/>
+                <button onClick={() => {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    const currentSafeAddress = provider?.provider.safe.safeAddress;
+                    const signer = provider?.getSigner(0);
+                    signer?.sendTransaction({to: currentSafeAddress, value: '123'});
+                }
+                }>
+                    send some ETH
+                </button>
+                <br/>
+                <button onClick={async () => {
+                    const signer = provider?.getSigner(0);
+                    const signed = await signer?.signMessage('hello');
+                    console.log(signed);
+                }}>Sign data
+                </button>
+                <hr/>
+            </div>
+            <div>
+                <div><b>chainId:</b> {JSON.stringify(chainId)}</div>
+                <br/>
+                <div><b>accounts:</b> {JSON.stringify(accounts)}</div>
+                <br/>
+                <div><b>isActivating:</b> {JSON.stringify(isActivating)}</div>
+                <br/>
+                <div><b>isActive:</b> {JSON.stringify(isActive)}</div>
+                <br/>
+                <div><b>error:</b> {JSON.stringify(error)}</div>
+                <br/>
+                <div><b>provider:</b>
+                    <pre>{JSON.stringify(provider?.provider, null, 2)}</pre>
+                </div>
+                <br/>
+                <div><b>ENSNames:</b> {JSON.stringify(ENSNames)}</div>
+                <br/>
+            </div>
         </div>
     );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-    const echoRes = await getApolloClient.query<DebugQuery>({
-        query: DebugDocument,
-        variables: {
-            first: 4
-        }
-    });
-    return {
-        props: echoRes
-    };
-};
