@@ -3,12 +3,17 @@ import {ApolloProvider} from '@apollo/client';
 import React, {ReactNode} from 'react';
 import {AppProps} from 'next/app';
 import Head from 'next/head';
+import {WalletProvider} from '../hooks/useWallet';
 
 export default function MyApp({Component, pageProps}: AppProps): ReactNode {
-    return <ApolloProvider client={getApolloClient}>
+  return (
+    <WalletProvider>
+      <ApolloProvider client={getApolloClient}>
         <Head>
-            <link rel="manifest" href="/manifest.json" />
+          <link rel="manifest" href="/manifest.json" />
         </Head>
         <Component {...pageProps} />
-    </ApolloProvider>;
+      </ApolloProvider>
+    </WalletProvider>
+  );
 }
