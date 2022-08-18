@@ -36,6 +36,8 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
   const [chainId, setChainId] = useState<number>(0);
   const [isActive, setIsActive] = useState<boolean>(false);
 
+  const [wallet, setWallet] = useState<string | null>('');
+
   const connectWallet = async (cb: сonnectWallet) => {
     if (!isInstalled()) {
       window.open('https://metamask.io/download/', '_blank');
@@ -153,6 +155,21 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
     window.ethereum.on('disconnect', disconnect);
   }, [disconnect]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWallet(sessionStorage.getItem('wallet'));
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (wallet === 'metamask') {
+      connect();
+    }
+  }, [wallet]);
 
   const values: WalletData = {
     account,

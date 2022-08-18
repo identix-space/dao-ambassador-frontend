@@ -13,12 +13,19 @@ export const WalletContext = wallet === 'metamask' ? MetamaskContext : wallet ==
 
 
 export const WalletProvider: React.FC<WalletProviderProps> = ({children}) => {
-  const [wallets, setWallets] = useState(isWindow && sessionStorage.getItem('wallet'));
+  const [wallets, setWallets] = useState<string | null>('');
 
 
-  // --------------- 
-  // TODO: wallets не меняется, и не срабатывает логика, которая лежит ниже
-  // --------------- 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWallets(sessionStorage.getItem('wallet'));
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   if (wallets === 'metamask') {
     return (
       <MetamaskProvider>
@@ -35,7 +42,6 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({children}) => {
   }
   return (
     <GnosisProvider>
-      {wallets}
       <MetamaskProvider>
         {children}
       </MetamaskProvider>
@@ -53,8 +59,8 @@ export const ModalWallet = () => {
       <button onClick={() => setIsModal(!isModal)}>Open Modal</button>
       {isModal && (
         <div>
-          <button onClick={() => { contextGnosis.connect(); console.log(context); }}>Connect GnosisSafe</button>
-          <button onClick={() => { contextMetamask.connect(); }}>Connect Metamask</button>
+          <button onClick={() => { contextGnosis.connect(); }}>Connect GnosisSafe</button>
+          <button onClick={() => { contextMetamask.connect(); window.location.reload(); }}>Connect Metamask</button>
         </div>
       )}
     </>

@@ -41,6 +41,8 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
   const provider = useProvider();
   const ENSNames = useENSNames(provider);
 
+  const [wallet, setWallet] = useState<string | null>('');
+
   const connect = async () => {
     if (!isInstalled()) {
       window.open('https://metamask.io/download/', '_blank');
@@ -108,6 +110,22 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
       sessionStorage.setItem('account', accounts[0]);
     }
   }, [accounts]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWallet(sessionStorage.getItem('wallet'));
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (wallet === 'gnosisSafe') {
+      connect();
+    }
+  }, [wallet]);
 
   const values: WalletData = {
     account,
