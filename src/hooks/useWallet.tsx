@@ -59,7 +59,7 @@ export const ModalWallet = () => {
       <button onClick={() => setIsModal(!isModal)}>Open Modal</button>
       {isModal && (
         <div>
-          <button onClick={() => { contextGnosis.connect(); }}>Connect GnosisSafe</button>
+          <button onClick={() => { contextGnosis.connect(); window.location.reload(); }}>Connect GnosisSafe</button>
           <button onClick={() => { contextMetamask.connect(); window.location.reload(); }}>Connect Metamask</button>
         </div>
       )}

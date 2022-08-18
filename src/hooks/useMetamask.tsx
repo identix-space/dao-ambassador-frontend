@@ -11,7 +11,6 @@ declare global {
      ethereum: any;
   }
 }
-
 const web3 = new Web3(Web3.givenProvider);
 export const MetamaskContext = createContext<WalletData>(initialWalletData);
 
@@ -70,7 +69,6 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
       sessionStorage.setItem('wallet', 'metamask');
       sessionStorage.setItem('account', accounts[0]);
 
-      setIsActive(true);
       setAccount(accounts[0]);
       setChainId(chain);
     });
@@ -112,7 +110,7 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
   const signData = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    web3.personal.sign(web3.toHex('message to sign'), account);
+    web3.eth.personal.sign('message to sign', account);
   };
   const handleAccountsChanged = (accounts: Account) => {
     if (accounts.length > 0) {

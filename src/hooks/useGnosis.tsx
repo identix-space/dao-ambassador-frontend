@@ -36,7 +36,7 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
   const [account, setAccount] = useState<string>('');
   const [error, setError] = useState<string>('');
 
-  const isActive = useIsActive();
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   const provider = useProvider();
   const ENSNames = useENSNames(provider);
@@ -51,12 +51,16 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
 
     gnosisSafe.connectEagerly();
 
+    sessionStorage.removeItem('wallet');
+    sessionStorage.removeItem('account');
+
+    sessionStorage.setItem('wallet', 'gnosisSafe');
+    setIsActive(true);
+
     if (accounts) {
       setAccount(accounts[0]);
-      sessionStorage.setItem('wallet', 'gnosisSafe');
       sessionStorage.setItem('account', accounts[0]);
     }
-
   };
   const disconnect = async () => {
     window.location.reload();
@@ -101,7 +105,6 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
   const signData = async () => {
     const signer = provider?.getSigner(0);
     const signed = await signer?.signMessage('hello');
-    console.log(signed);
   };
 
   useEffect(() => {
