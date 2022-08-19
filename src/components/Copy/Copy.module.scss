@@ -1,0 +1,14 @@
+.copy {
+  width: 22px;
+  height: 22px;
+  background: url('/assets/copy.svg') center/contain no-repeat;
+  cursor: pointer;
+
+  &:hover {
+    opacity: .8;
+  }
+
+  &:active {
+    opacity: .6;
+  }
+}

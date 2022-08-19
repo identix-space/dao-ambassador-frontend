@@ -1,0 +1,44 @@
+.proxy_card {
+    width: 900px;
+    padding: 20px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    margin-top: 40px;
+}
+
+.top {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.5fr 0.5fr;
+    width: 100%;
+    height: 372px;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.56)), linear-gradient(112.95deg, #5755FF -13.39%, #FF8AA6 118.44%);
+    border-radius: 15px;
+    padding: 40px 90px 56px;
+
+    &::after {
+        position: absolute;
+        content: '';
+        width: 250px;
+        height: 320px;
+        right: 0;
+        bottom: -115px;
+        background: url('/assets/figure.svg') center/contain no-repeat;
+    }
+}
+
+.role {
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 108%;
+    color: #FFFFFF;
+    text-shadow: 0px 4px 4px #B69BD2, 0px 4px 37px rgba(54, 33, 132, 0.11), 0px 4px 37px rgba(54, 33, 132, 0.11);
+    margin: 0;
+}
+
+.bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 60px 100px 10px;
+}
