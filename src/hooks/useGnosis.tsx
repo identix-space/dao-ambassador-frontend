@@ -139,7 +139,10 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
     getBalance,
     signData,
     sendTransaction,
-    disconnect
+    disconnect,
+    test() {
+      console.log('test gnosis');
+    }
   };
 
   return (

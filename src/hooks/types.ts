@@ -1,5 +1,7 @@
+import React from 'react';
+
 export type Account = string[];
-export type сonnectWallet = (chain: number, accounts: Account) => void;
+export type connectWallet = (chain: number, accounts: Account) => void;
 export interface WalletProviderProps {
   children: React.ReactNode;
 }
@@ -14,6 +16,8 @@ export interface WalletData {
   sendTransaction: () => void;
   getBalance: () => void;
   signData: () => void;
+
+  test(): void;
 }
 
 export interface Error {
@@ -39,6 +43,9 @@ export const initialWalletData: WalletData = {
     return;
   },
   signData: () => {
+    return;
+  },
+  test() {
     return;
   }
 };

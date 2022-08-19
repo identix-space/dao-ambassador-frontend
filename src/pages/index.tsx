@@ -8,6 +8,9 @@ export default function IndexPage(): ReactNode {
   return (
     <>
       <div>
+        <button onClick={context.test}>Deploy Contract</button>
+      </div>
+      <div>
         <div>
           <h1>Gnosis SBT App</h1>
           <hr />

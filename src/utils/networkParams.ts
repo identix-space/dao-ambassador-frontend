@@ -13,18 +13,11 @@ interface Params {
 }
 
 export const networkParams: Params = {
-  '0x38': {
-    chainId: '0x38',
-    rpcUrls: ['https://bsc-dataseed1.binance.org/'],
-    chainName: 'Binance Smart Chain',
-    nativeCurrency: {name: 'BNB', decimals: 18, symbol: 'BNB'},
-    blockExplorerUrls: ['https://bscscan.com']
-  },
-  '0x61': {
-    chainId: '0x61',
-    rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/t'],
-    chainName: 'BSC Testnet',
-    nativeCurrency: {name: 'BNB', decimals: 18, symbol: 'BNB'},
-    blockExplorerUrls: ['https://explorer.binance.org/smart-testnet']
+  '0x4': {
+    chainId: '0x4',
+    rpcUrls: ['https://rinkeby.infura.io/v3/35f50afe9c5b41e98dcab7f4c7ba4d80'],
+    chainName: 'Rinkeby',
+    nativeCurrency: {name: 'RETH', decimals: 18, symbol: 'RETH'},
+    blockExplorerUrls: ['https://rinkeby.etherscan.io']
   }
 };
