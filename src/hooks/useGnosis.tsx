@@ -8,7 +8,6 @@ import {gnosisSafe, hooks} from '../utils/gnosisSafe';
 const {
   useChainId,
   useAccounts,
-  useIsActive,
   useProvider,
   useENSNames
 } = hooks;

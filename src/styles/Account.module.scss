@@ -1,0 +1,69 @@
+.avatar {
+  width: 140px;
+  height: 140px;
+  position: relative;
+  border-radius: 50%;
+  border: 3px solid #FFFFFF;
+  overflow: hidden;
+}
+
+.user {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  align-items: center;
+  gap: 45px;
+  margin: 30px 0;
+}
+
+.user_info {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.safe_account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 28px;
+  background: #00CD2D;
+  border-radius: 15px;
+
+  span {
+    font-weight: 700;
+    font-size: 14px;
+    color: #FFFFFF;
+  }
+}
+
+.souls {
+  width: 100%;
+  max-width: 1080px;
+  background: linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  box-shadow: 0px 4px 37px rgba(54, 33, 132, 0.11), 0px 4px 37px rgba(54, 33, 132, 0.11);
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  margin-top: 30px;
+  overflow: hidden;
+  padding-bottom: 60px;
+}
+
+.souls_header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 35px 45px;
+}
+
+.soul_row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 19px 45px;
+  background: #FFFFFF;
+
+  &:nth-child(even) {
+    background: #F6F5FF;
+  }
+}

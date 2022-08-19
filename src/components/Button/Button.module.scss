@@ -1,0 +1,54 @@
+.button {
+  font-family: 'Gilroy', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+.purple {
+  height: 60px;
+  background: #9F9EEE;
+  box-shadow: 0px 4px 37px rgba(54, 33, 132, 0.2);
+  border-radius: 15px;
+  color: #FFFFFF;
+  transition: all .2s;
+
+  &:hover {
+    box-shadow: 0px 4px 37px rgba(54, 33, 132, 0.3);
+  }
+}
+
+.transparent {
+  background: transparent;
+  color: #9F9EEE;
+  text-decoration: underline;
+  transition: all .2s;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.s {
+  width: 412px;
+}
+
+.l {
+  width: 100%;
+}
+
+.auto {
+  width: fit-content;
+}
+
+.disabled {
+  background: linear-gradient(0deg, rgba(250, 250, 250, 0.5), rgba(250, 250, 250, 0.5)), #9F9EEE;
+}

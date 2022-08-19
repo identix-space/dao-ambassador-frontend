@@ -1,0 +1,115 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 60px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user {
+  width: 262px;
+  height: 60px;
+  display: grid;
+  grid-template-columns: 48px auto 18px;
+  align-items: center;
+  gap: 14px;
+  right: 0;
+  color: #353438;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 117%;
+  word-wrap: break-word;
+  padding: 0 12px;
+  box-sizing: border-box;
+  z-index: 9999;
+  text-align: left;
+  cursor: pointer;
+  background: #FFFFFF;
+  border-radius: 15px;
+}
+
+.opened_menu {
+  border-radius: 15px 15px 0 0;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #eaeaea;
+}
+
+.username {
+  width: 144px;
+  max-height: 48px;
+  word-wrap: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 120%;
+  letter-spacing: 0.03em;
+  color: #150B4D;
+  margin: 0;
+}
+
+.user_menu {
+  position: absolute;
+  width: 262px;
+  height: 108px;
+  top: 82px;
+  right: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px 14px;
+  background: #F5F0FB;
+  box-shadow: 0 4px 37px rgba(54, 33, 132, 0.11);
+  border-radius: 0 0 25px 25px;
+  z-index: 9998;
+  overflow: hidden;
+
+  p {
+    margin: 0;
+  }
+}
+
+.show_btn {
+  transform: rotate(180deg);
+  display: flex;
+  align-items: center;
+}
+
+.opened {
+  transform: rotate(0);
+}
+
+.gradient_text {
+  position: relative;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  text-decoration-line: underline;
+  background: linear-gradient(112.95deg, #5755FF -13.39%, #FF8AA6 118.44%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  cursor: pointer;
+
+  &::after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(112.95deg, #5755FF -13.39%, #FF8AA6 118.44%);;
+  }
+}
