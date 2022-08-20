@@ -1,7 +1,57 @@
-query Debug {
-    debug
+mutation GenerateOtc($address: String!) {
+    generateOtc(address: $address)
 }
 
-mutation Echo($text: String!) {
-    echo(text: $text)
+mutation VerifyOtc($address: String!, $code: String!, $signature: String!) {
+    verifyOtc(address: $address, code: $code, signature: $signature) {
+        account {
+            id
+        }
+        token
+    }
+}
+
+query whoami {
+    whoami {
+        id
+        createdAt
+        updatedAt
+        status
+        roles
+        souls {
+            id
+            createdAt
+            updatedAt
+            address
+            owner {
+                sessions {
+                    address
+                }
+            }
+            relatedTokens {
+                id
+                createdAt
+                updatedAt
+                collection {
+                    name
+                }
+                idInCollection
+                creator {
+                    sessions {
+                        address
+                    }
+                }
+                targetSoul {
+                    id
+                    address
+                    owner {
+                        sessions {
+                            address
+                        }
+                    }
+                }
+                metadata
+            }
+        }
+    }
 }

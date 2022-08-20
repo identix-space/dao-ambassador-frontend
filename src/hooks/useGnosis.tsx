@@ -1,5 +1,4 @@
 import React, {useState, createContext, useContext, useEffect} from 'react';
-import Web3 from 'web3';
 
 import {Error, WalletProviderProps, WalletData, initialWalletData} from './types';
 
@@ -8,8 +7,7 @@ import {gnosisSafe, hooks} from '../utils/gnosisSafe';
 const {
   useChainId,
   useAccounts,
-  useProvider,
-  useENSNames
+  useProvider
 } = hooks;
 
 declare global {
@@ -20,7 +18,7 @@ declare global {
 }
 
 
-const web3 = new Web3(Web3.givenProvider);
+// const web3 = new Web3(Web3.givenProvider);
 export const GnosisContext = createContext<WalletData>(initialWalletData);
 
 const isInstalled = () => {
@@ -32,13 +30,14 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
   const chainId = useChainId();
   const accounts = useAccounts();
 
+
   const [account, setAccount] = useState<string>('');
   const [error, setError] = useState<string>('');
 
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const provider = useProvider();
-  const ENSNames = useENSNames(provider);
+  // const ENSNames = useENSNames(provider);
 
   const [wallet, setWallet] = useState<string | null>('');
 
@@ -47,18 +46,18 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
       window.open('https://metamask.io/download/', '_blank');
       return;
     }
-
-    gnosisSafe.connectEagerly();
+    await gnosisSafe.connectEagerly();
+    // setError(errorM.message);
+    // console.log({error});
 
     sessionStorage.removeItem('wallet');
     sessionStorage.removeItem('account');
 
-    sessionStorage.setItem('wallet', 'gnosisSafe');
-    setIsActive(true);
-
     if (accounts) {
       setAccount(accounts[0]);
       sessionStorage.setItem('account', accounts[0]);
+      sessionStorage.setItem('wallet', 'gnosisSafe');
+      setIsActive(true);
     }
   };
   const disconnect = async () => {
@@ -101,12 +100,18 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
     alert(res);
   };
 
-  const signData = async () => {
-    const signer = provider?.getSigner(0);
-    const signed = await signer?.signMessage('hello');
+  const signData = async (data: string, acc: string): Promise<string | null> => {
+    const signer = provider?.getSigner(acc);
+    const signed = await signer?.signMessage(data);
+    if (signed) {
+      return signed;
+    } else {
+      return null;
+    }
   };
 
   useEffect(() => {
+    console.log(window.location);
     if (accounts) {
       setAccount(accounts[0]);
       sessionStorage.setItem('account', accounts[0]);
@@ -126,6 +131,7 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
   useEffect(() => {
     if (wallet === 'gnosisSafe') {
       connect();
+      setError('');
     }
   }, [wallet]);
 

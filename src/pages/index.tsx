@@ -25,7 +25,7 @@ export default function IndexPage(): ReactNode {
           </button>
           <br />
           <button
-            onClick={() => context.signData()}
+            onClick={() => context.signData('dasdsad', 'dsad')}
           >
             Sign data
           </button>

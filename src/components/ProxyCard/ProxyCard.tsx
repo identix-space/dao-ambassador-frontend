@@ -12,6 +12,7 @@ export const ProxyCard = ({name, ...props}: ProxyCardProps): JSX.Element => {
     >
       <div className={styles.top}>
         <div className={styles.img}/>
+        {/* eslint-disable-next-line sonarjs/no-duplicate-string */}
         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
           <P size="m" weight="bold">{name}</P>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>

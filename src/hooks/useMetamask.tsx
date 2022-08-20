@@ -5,6 +5,7 @@ import {switchNetworkIfRequired} from '../utils/switchNetwork';
 import {config} from '../config';
 import {Account, Error, WalletProviderProps, WalletData, connectWallet, initialWalletData} from './types';
 import {AbiItem} from 'web3-utils';
+import {redirect} from '../utils/misc';
 
 declare global {
   interface Window {
@@ -20,7 +21,7 @@ const isInstalled = () => {
 };
 
 const isChainIdCorrect = async () => {
-  const chainId = Number(await window.ethereum.request({method: 'eth_chainId'}));
+  const chainId = Number(await window.ethereum.chainId);
 
   return chainId === config.chainId;
 };
@@ -46,6 +47,7 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
     if (!(await isWalletConnected())) {
       setError('Connect your wallet');
     }
+    await window.ethereum.request({method: 'eth_requestAccounts'});
     if (!(await isChainIdCorrect())) {
       setError('Select testnet');
       try {
@@ -55,8 +57,6 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
         return;
       }
     }
-
-    await window.ethereum.request({method: 'eth_requestAccounts'});
 
     const accounts = await web3.eth.getAccounts();
 
@@ -108,10 +108,14 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
     // eslint-disable-next-line no-alert
     alert(web3.utils.fromWei(balance));
   };
-  const signData = () => {
+  const signData = async (data: string, acc: string): Promise<string | null> => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    web3.eth.personal.sign('message to sign', account);
+    const signature = await web3.eth.personal.sign(data, acc);
+    if (signature) {
+      return signature;
+    }
+    return null;
   };
   const handleAccountsChanged = (accounts: Account) => {
     if (accounts.length > 0) {
@@ -136,7 +140,14 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
   };
   const disconnect = () => {
     refreshData();
-    window.location.reload();
+    redirect('/login');
+    // window.location.reload();
+  };
+
+  const checkRightChainIdOnChange = async () => {
+    if (!(await isChainIdCorrect())) {
+      disconnect();
+    }
   };
 
   useEffect(() => {
@@ -150,7 +161,7 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
     }
 
     window.ethereum.on('accountsChanged', handleAccountsChanged);
-    window.ethereum.on('chainChanged', disconnect);
+    window.ethereum.on('chainChanged', checkRightChainIdOnChange);
     window.ethereum.on('disconnect', disconnect);
   }, [disconnect]);
 

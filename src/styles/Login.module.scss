@@ -88,6 +88,16 @@
     background: url('/assets/metamask.svg') center/contain no-repeat;
 }
 
+.loader_icon_gnosis {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: url('/assets/gnosis.svg') center/contain no-repeat;
+}
+
 @keyframes rotation {
     0% {
         transform: rotate(0deg);

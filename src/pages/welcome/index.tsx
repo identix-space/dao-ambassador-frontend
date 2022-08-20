@@ -5,6 +5,7 @@ import styles from '../../styles/Welcome.module.scss';
 import Welcome1 from '../../../public/assets/welcome1.svg';
 import Welcome2 from '../../../public/assets/welcome2.svg';
 import Welcome3 from '../../../public/assets/welcome3.svg';
+import {redirect} from '../../utils/misc';
 
 export default function WelcomePage(): ReactNode {
 
@@ -24,7 +25,7 @@ export default function WelcomePage(): ReactNode {
         </div>
       </div>
       <div className={styles.buttons}>
-        <Button>Delegate powers</Button>
+        <Button onClick={() => redirect('/login')}>Delegate powers</Button>
         <Button view="transparent" size="auto">Verify the ambassador</Button>
       </div>
     </>

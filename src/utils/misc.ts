@@ -6,3 +6,9 @@ export function startAndEnd(str: string | undefined, gapStart: number, gapEnd: n
   }
   return str;
 }
+
+export function redirect(url: string): void {
+  if (typeof window !== 'undefined') {
+    window.location.href = url;
+  }
+}

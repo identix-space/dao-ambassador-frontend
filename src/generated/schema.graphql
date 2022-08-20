@@ -3,14 +3,148 @@ schema {
   mutation: Mutation
 }
 
+directive @cost(complexity: CostComplexity, multipliers: [String], useMultipliers: Boolean) on FIELD_DEFINITION | OBJECT
+
+type Account implements Node {
+  collections(onlyMine: Boolean!): [SbtCollection!]
+  createdAt: Date!
+  email: String!
+  id: Int!
+  roles: [AccountRole!]!
+  sessions: [AccountSession!]
+  souls: [Soul!]
+  status: AccountStatus!
+  updatedAt: Date!
+}
+
+enum AccountRole {
+  ADMIN
+  USER
+}
+
+type AccountSession implements Node {
+  account: Account!
+  address: String
+  createdAt: Date!
+  expiresAt: Date!
+  id: Int!
+  ipAddr: String!
+  updatedAt: Date!
+  userAgent: UserAgent
+}
+
+enum AccountStatus {
+  ACTIVE
+  DISABLED
+}
+
+type AuthResult {
+  account: Account!
+  token: String!
+}
+
+input CostComplexity {
+  max: Int
+  min: Int = 1
+}
+
 scalar Date
+
+type GenerateEmailCodeResult {
+  expiresAt: Date!
+  result: Boolean!
+}
 
 scalar Json
 
 type Mutation {
+  activateAccount(code: String!, email: String!): Boolean!
+  addEventCollectionCreate(collectionName: String!, collectionSymbol: String!, contractAddress: String!, txHash: String!): Boolean!
+  addEventSoulCreate(soulAddress: String!, txHash: String!): Boolean!
+  addEventTokenCreate(collectionContractAddress: String!, description: String!, metadata: Json!, soulAddress: String!, tokenId: String!, txHash: String!): Boolean!
+  changePassword(newPassword: String!, password: String!): Boolean!
   echo(text: String!): String!
+  generateEmailCode(email: String!): GenerateEmailCodeResult!
+  generateOtc(address: String!): String!
+  login(email: String!, password: String!): AuthResult!
+  logout(
+    """List of sessions id. Don't pass for logout all sessions."""
+    sessionIds: [Int!]
+  ): Boolean!
+  register(email: String!, password: String!): AuthResult!
+  resetPassword(email: String!, emailCode: String!, newPassword: String!): Boolean!
+  verifyOtc(address: String!, code: String!, signature: String!): AuthResult!
+}
+
+interface Node {
+  createdAt: Date!
+  id: Int!
+  updatedAt: Date!
 }
 
 type Query {
-  debug: Json
+  currentSession: AccountSession!
+  debug(showAdditionalInfo: Boolean!): Json
+  error: Int
+  token(collectionAddress: String!, tokenId: String!): SbtToken!
+  whoami: Account!
+}
+
+type SbtCollection {
+  address: String!
+  createdAt: Date!
+  creator: Account!
+  id: Int!
+  name: String!
+  symbol: String!
+  tokens: [SbtToken!]
+  updatedAt: Date!
+}
+
+type SbtToken {
+  collection: SbtCollection!
+  createdAt: Date!
+  creator: Account!
+  id: Int!
+  idInCollection: String!
+  metadata: Json!
+  targetSoul: Soul!
+  updatedAt: Date!
+}
+
+type Soul {
+  address: String!
+  createdAt: Date!
+  id: Int!
+  owner: Account!
+  relatedTokens: [SbtToken!]
+  updatedAt: Date!
+}
+
+type UserAgent {
+  browser: UserAgentBrowser
+  cpu: UserAgentCpu
+  engine: UserAgentEngine
+  os: UserAgentOs
+  ua: String
+}
+
+type UserAgentBrowser {
+  major: String
+  name: String
+  version: String
+}
+
+type UserAgentCpu {
+  architecture: String
+}
+
+type UserAgentEngine {
+  name: String
+  version: String
+}
+
+type UserAgentOs {
+  name: String
+  version: String
 }

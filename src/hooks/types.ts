@@ -15,7 +15,7 @@ export interface WalletData {
   disconnect: () => void;
   sendTransaction: () => void;
   getBalance: () => void;
-  signData: () => void;
+  signData: (data: string, acc: string) => Promise<string | null>;
 
   test(): void;
 }
@@ -24,6 +24,7 @@ export interface Error {
   code: number;
   message: string;
 }
+
 
 export const initialWalletData: WalletData = {
   account: '',
@@ -42,8 +43,10 @@ export const initialWalletData: WalletData = {
   getBalance: () => {
     return;
   },
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   signData: () => {
-    return;
+    return null;
   },
   test() {
     return;

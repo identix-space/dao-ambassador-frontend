@@ -5,6 +5,10 @@ import {WalletProviderProps, WalletData, initialWalletData} from './types';
 import {MetamaskContext, MetamaskProvider} from './useMetamask';
 import {GnosisProvider, GnosisContext} from './useGnosis';
 import {useEffect} from 'react';
+import {useRouter} from 'next/router';
+import {redirect} from '../utils/misc';
+
+const publicPaths = ['/login', '/welcome'];
 
 const isWindow = typeof window !== 'undefined';
 const wallet = isWindow && sessionStorage.getItem('wallet');
@@ -14,7 +18,19 @@ export const WalletContext = wallet === 'metamask' ? MetamaskContext : wallet ==
 
 export const WalletProvider: React.FC<WalletProviderProps> = ({children}) => {
   const [wallets, setWallets] = useState<string | null>('');
-
+  const router = useRouter();
+  const pathIsPublic = publicPaths.includes(router.pathname);
+  // eslint-disable-next-line complexity
+  useEffect(() => {
+    const adr = sessionStorage.getItem('account');
+    if (!pathIsPublic && !adr) {
+      redirect('/welcome');
+      sessionStorage.removeItem('wallet');
+      sessionStorage.removeItem('account');
+    } else if (pathIsPublic && adr) {
+      redirect('/collections');
+    }
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -51,7 +67,7 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({children}) => {
 };
 
 export const ModalWallet = () => {
-  const {contextMetamask, contextGnosis, context} = useWallet();
+  const {contextMetamask, contextGnosis} = useWallet();
   const [isModal, setIsModal] = useState<boolean>(false);
 
   return (
@@ -60,7 +76,7 @@ export const ModalWallet = () => {
       {isModal && (
         <div>
           <button onClick={() => { contextGnosis.connect(); window.location.reload(); }}>Connect GnosisSafe</button>
-          <button onClick={() => { contextMetamask.connect(); window.location.reload(); }}>Connect Metamask</button>
+          <button onClick={() => { contextMetamask.connect(); }}>Connect Metamask</button>
         </div>
       )}
     </>

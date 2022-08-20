@@ -23,6 +23,7 @@ export default function NewProxyPage(): ReactNode {
         <Input placeholder="Position name"/>
         <Textarea placeholder="Powers Description"/>
         <P size="sm" weight="bold" style={{marginTop: '20px'}}>Provide Agent’s public contacts</P>
+        {/* eslint-disable-next-line sonarjs/no-duplicate-string */}
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px'}}>
           <P weight="bold">1. Telegram</P>
           <Input style={{width: '70%'}} placeholder="Position name"/>

@@ -1,6 +1,6 @@
 import {getApolloClient} from '../utils/ApolloClient';
 import {ApolloProvider} from '@apollo/client';
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import {AppProps} from 'next/app';
 import Head from 'next/head';
 import MainLayout from '../layout/MainLayout';
@@ -9,9 +9,18 @@ import '../styles/fonts.scss';
 import {WalletProvider} from '../hooks/useWallet';
 
 export default function MyApp({Component, pageProps}: AppProps): ReactNode {
+
+  useEffect(() => {
+    const isGnosis = window.location.ancestorOrigins[0] === 'https://gnosis-safe.io';
+    if (isGnosis) {
+      sessionStorage.setItem('isGnosisAvailable', String(isGnosis));
+    }
+  }, []);
+
+
   return (
-    <WalletProvider>
-      <ApolloProvider client={getApolloClient}>
+    <ApolloProvider client={getApolloClient}>
+      <WalletProvider>
         <MainLayout>
           <Head>
             <link rel="manifest" href="/manifest.json"/>
@@ -36,7 +45,7 @@ export default function MyApp({Component, pageProps}: AppProps): ReactNode {
           </Head>
           <Component {...pageProps} />
         </MainLayout>
-      </ApolloProvider>
-    </WalletProvider>
+      </WalletProvider>
+    </ApolloProvider>
   );
 }
