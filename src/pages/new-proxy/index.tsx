@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import {Button, Card, Input, P, Textarea} from '../../components';
+import {Button, Card, Input, P, Textarea, SelectBlock} from '../../components';
 
 export default function NewProxyPage(): ReactNode {
   return (
@@ -36,8 +36,7 @@ export default function NewProxyPage(): ReactNode {
           <Input style={{width: '70%'}} placeholder="Position name"/>
         </div>
         <P size="sm" weight="bold" style={{marginTop: '20px'}}>Set SBT params</P>
-        <Input placeholder="Expiration"/>
-        <Input placeholder="Proxy group"/>
+        <SelectBlock placeholder="Expiration"/>
         <Button size="l" style={{marginTop: '40px'}}>Create proxy</Button>
       </Card>
     </>

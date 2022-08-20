@@ -29,6 +29,8 @@
         "next-compose-plugins": "^2.2.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-modal": "^3.15.1",
+        "react-select": "^5.4.0",
         "sharp": "^0.30.7",
         "web3": "^1.7.5"
     },
