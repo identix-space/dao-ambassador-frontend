@@ -1,6 +1,7 @@
 /* eslint-disable brace-style */
 import React, {ReactNode} from 'react';
 import useWallet, {ModalWallet} from '../hooks/useWallet';
+import {deployContract} from '../utils/deploySmartContract';
 
 export default function IndexPage(): ReactNode {
   const {context} = useWallet();
@@ -47,6 +48,8 @@ export default function IndexPage(): ReactNode {
           <div>
             <b>error:</b> {context.error}
           </div>
+          <button onClick={() => deployContract('soul')}>Deploy</button>
+          <button onClick={() => deployContract('soulBound', 'TEST', 'TST', '0xC1cEe87127ee0602d780f8933aCAf1Ba8E2F66A2')}>Deploy soulBound</button>
         </div>
       </div>
       <ModalWallet/>
