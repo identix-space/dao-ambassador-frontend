@@ -34,14 +34,14 @@ export function Header() {
         </div>
       )}
       {isMenuOpen &&
-            <div className={styles.user_menu}>
-              <Link href="/account">
-                <a className={styles.gradient_text}>
-                        Manage my soul(s)
-                </a>
-              </Link>
-              <P size="s" weight="bold" onClick={() => logOut()}>Log out</P>
-            </div>
+      <div className={styles.user_menu}>
+        <Link href="/account">
+          <a className={styles.gradient_text}>
+            Manage my soul(s)
+          </a>
+        </Link>
+        <P size="s" weight="bold" onClick={() => logOut()}>Log out</P>
+      </div>
       }
     </div>
   );

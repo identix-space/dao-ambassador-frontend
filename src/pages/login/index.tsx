@@ -93,7 +93,7 @@ export default function LoginPage(): ReactNode {
         </div>
       )}
       {loadMetamask &&
-      <Card style={{marginTop: '40px'}}>
+      <Card style={{marginTop: '40px', alignItems: 'center', padding: '60px 20px'}}>
         <P size="l" weight="bold">Connecting Metamask</P>
         <div className={styles.loader_wrapper}>
           <div className={styles.loader}/>

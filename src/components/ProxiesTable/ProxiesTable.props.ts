@@ -1,3 +1,5 @@
 import {DetailedHTMLProps, HTMLAttributes} from 'react';
 
-export type ProxiesTableProps = DetailedHTMLProps<HTMLAttributes<HTMLTableElement>, HTMLTableElement>
+export interface ProxiesTableProps extends DetailedHTMLProps<HTMLAttributes<HTMLTableElement>, HTMLTableElement> {
+    data?: any;
+}

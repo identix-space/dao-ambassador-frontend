@@ -1,16 +1,18 @@
 import React, {ReactNode, useState} from 'react';
 import styles from '../../styles/Collections.module.scss';
-import {Button, Card, Input, Modal, P, ProxyCard, RoleSwitch} from '../../components';
+import {Button, Card, Input, Loader, Modal, P, ProxyCard, RoleSwitch} from '../../components';
 import cn from 'classnames';
-import Link from 'next/link';
 import {ProxiesTable} from '../../components';
 import {redirect} from '../../utils/misc';
 import {useRoleStore} from '../../store/store';
+import {useWhoamiQuery} from '../../generated/graphql';
+import {NewProxyBtn} from '../../components/NewProxyBtn/NewProxyBtn';
 
 export default function CollectionsPage(): ReactNode {
-  const [isModalShown, setIsModalShown] = useState(true);
+  const [isModalShown, setIsModalShown] = useState(false);
   const [view, setView] = useState('list');
   const {role} = useRoleStore();
+  const {data} = useWhoamiQuery();
 
   return (
     <>
@@ -33,8 +35,13 @@ export default function CollectionsPage(): ReactNode {
               </div>
             }
             {view === 'list' &&
-              <ProxiesTable/>
+              <>
+                {data &&
+                  <ProxiesTable data={data}/>
+                }
+              </>
             }
+            <NewProxyBtn/>
           </>
         }
         {role === 'verifier' &&
@@ -54,11 +61,6 @@ export default function CollectionsPage(): ReactNode {
         }
       </div>
       <Modal modalTitle="Verification result" isShown={isModalShown} hide={() => setIsModalShown(false)}/>
-      <Link href="/new-proxy">
-        <a>
-          <div className={styles.new_proxy}>+</div>
-        </a>
-      </Link>
     </>
   );
 }

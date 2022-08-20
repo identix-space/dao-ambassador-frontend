@@ -17,13 +17,13 @@ const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL
 });
 const authLink = setContext((_, {headers}) => {
-  const address = sessionStorage.getItem('wallet');
+  const address = sessionStorage.getItem('account');
   console.log('ApolloClient address:', address);
   if (address) {
     return {
       headers: {
         ...headers,
-        address: `bearer ${address}`
+        address: `${address}`
       }
     };
   } else {
