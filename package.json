@@ -32,7 +32,8 @@
         "react-modal": "^3.15.1",
         "react-select": "^5.4.0",
         "sharp": "^0.30.7",
-        "web3": "^1.7.5"
+        "web3": "^1.7.5",
+        "zustand": "^4.1.0"
     },
     "devDependencies": {
         "@graphql-codegen/add": "^3.2.0",

@@ -9,3 +9,4 @@ export * from './Textarea/Textarea';
 export * from './Copy/Copy';
 export * from './RoleSwitch/RoleSwitch';
 export * from './Select/Select';
+export * from './Modal/Modal';

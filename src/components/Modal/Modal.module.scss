@@ -1,0 +1,81 @@
+.backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(178.99deg, rgba(173, 119, 184, 0.28) 1.38%, rgba(155, 151, 206, 0.51) 99.13%, rgba(155, 151, 206, 0.29) 99.13%);
+  backdrop-filter: blur(25px);
+  z-index: 500;
+  cursor: pointer;
+}
+
+.wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 700;
+  width: 615px;
+  background: linear-gradient(0deg, #FFFFFF, #FFFFFF), linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  box-shadow: 0 4px 37px rgba(54, 33, 132, 0.2);
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  outline: 0;
+  padding: 60px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+  padding: 10px;
+  height: calc(100% - 44px);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #dedede;
+    opacity: 0.5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: rgba(141, 141, 141, 0.23);
+  }
+
+  @media (min-width: 1400px) {
+    height: calc(100% - 48px);
+  }
+}
+
+.results {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-basis: 50%;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #150B4D;
+}
+
+.close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 17px;
+  height: 17px;
+  background: url('/assets/cross.svg') center/contain no-repeat;
+  cursor: pointer;
+}
