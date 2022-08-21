@@ -2,9 +2,9 @@ import React, {ReactNode} from 'react';
 import Image from 'next/image';
 import {P, Button} from '../../components';
 import styles from '../../styles/Welcome.module.scss';
-import Welcome1 from '../../../public/assets/welcome1.svg';
-import Welcome2 from '../../../public/assets/welcome2.svg';
-import Welcome3 from '../../../public/assets/welcome3.svg';
+import Welcome1 from '../../../public/assets/welcome1.png';
+import Welcome2 from '../../../public/assets/welcome2.png';
+import Welcome3 from '../../../public/assets/welcome3.png';
 import {redirect} from '../../utils/misc';
 
 export default function WelcomePage(): ReactNode {

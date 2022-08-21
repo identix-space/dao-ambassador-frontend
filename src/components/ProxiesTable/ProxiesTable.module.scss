@@ -33,6 +33,7 @@
   }
 
   tbody {
+    width: 100%;
     font-weight: 700;
     font-size: 16px;
     line-height: 120%;
@@ -41,6 +42,14 @@
 
     tr {
       td {
+        a {
+          display: block;
+          width: 100% !important;
+          height: 100% !important;
+          cursor: pointer;
+          text-decoration: none;
+          color: #150B4D;
+        }
         &:nth-child(1) {
           padding-left: 50px;
         }
@@ -51,12 +60,20 @@
         div {
           display: inline-block;
           vertical-align: -4px;
-          margin-left: 12px;
+          margin-left: 10px !important;
+        }
+
+        .avatar {
+          position: relative;
+          width: 46px;
+          height: 46px;
         }
 
         span {
+          width: 46px !important;
           vertical-align: -18px;
           margin-right: 10px !important;
+          border-radius: 50%;
         }
       }
       &:nth-child(even) {

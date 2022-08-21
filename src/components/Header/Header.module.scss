@@ -3,12 +3,17 @@
   display: flex;
   justify-content: space-between;
   padding: 24px 60px;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 15px;
+  cursor: pointer;
 }
 
 .user {

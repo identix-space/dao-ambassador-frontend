@@ -18,7 +18,7 @@ export const SelectBlock = ({placeholder = '', ...props}: SelectProps): JSX.Elem
   const [options, setOptions] = useState<MyOptionType[]>();
 
   useEffect(() => {
-    setOptions([{value: oneMonth, label: '1 month'}, {value: oneMonth * 3, label: '3 month\'s'}, {value: oneMonth * 6, label: '6 month\'s'}, {value: oneMonth * 12, label: '1 year'}]);
+    setOptions([{value: oneMonth, label: '1 month'}, {value: oneMonth * 3, label: '3 months'}, {value: oneMonth * 6, label: '6 months'}, {value: oneMonth * 12, label: '1 year'}]);
   }, []);
 
   const customStyles: StylesConfig<MyOptionType, IsMulti> = {

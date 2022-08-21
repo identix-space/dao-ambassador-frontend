@@ -1,7 +1,7 @@
 import React, {ReactNode, useState} from 'react';
 import styles from '../../styles/Account.module.scss';
 import Image from 'next/image';
-import {Button, Loader, Modal, P} from '../../components';
+import {Button, Copy, Loader, Modal, P} from '../../components';
 import useWallet from '../../hooks/useWallet';
 import {useAddEventSoulCreateMutation, useWhoamiQuery} from '../../generated/graphql';
 import stylesPlus from '../../styles/Collections.module.scss';
@@ -78,8 +78,8 @@ export default function AccountPage(): ReactNode {
 
               {data.whoami?.souls.map((soul, key) => (
                 <div className={styles.soul_row} key={key}>
-                  <P size="s" weight="bold">{soul.address}</P>
-                  <P size="s" weight="bold">{soul.address}</P>
+                  <P size="s" weight="bold">{soul.address}<Copy text={soul.address}/></P>
+                  <P size="s" weight="bold">{soul.address}<Copy text={soul.address}/></P>
                 </div>))}
             </div>
           </>

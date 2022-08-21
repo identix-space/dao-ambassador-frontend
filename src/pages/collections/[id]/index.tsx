@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
-import styles from '../../styles/ProxyDetails.module.scss';
-import {Button, P} from '../../components';
-import {startAndEnd} from '../../utils/misc';
+import styles from '../../../styles/ProxyDetails.module.scss';
+import {Button, P} from '../../../components';
+import {startAndEnd} from '../../../utils/misc';
 
 export default function ProxyDetailsPage(): ReactNode {
   return (

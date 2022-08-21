@@ -78,3 +78,24 @@ mutation AddEventCollectionCreate(
         collectionSymbol: $collectionSymbol
     )
 }
+
+query myCollections($onlyMine: Boolean!) {
+    whoami {
+        collections(onlyMine: $onlyMine) {
+        address
+           tokens {
+               id
+               createdAt
+               updatedAt
+               idInCollection
+               collection {
+                    name
+               }
+               targetSoul {
+                   address
+               }
+               metadata
+           }
+       }
+   }
+}

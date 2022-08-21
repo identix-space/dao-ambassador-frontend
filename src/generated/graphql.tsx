@@ -295,6 +295,13 @@ export type AddEventCollectionCreateMutationVariables = Exact<{
 
 export type AddEventCollectionCreateMutation = { __typename?: 'Mutation', addEventCollectionCreate: boolean };
 
+export type MyCollectionsQueryVariables = Exact<{
+  onlyMine: Scalars['Boolean'];
+}>;
+
+
+export type MyCollectionsQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', collections?: Array<{ __typename?: 'SbtCollection', address: string, tokens?: Array<{ __typename?: 'SbtToken', id: number, createdAt: any, updatedAt: any, idInCollection: string, metadata: any, collection: { __typename?: 'SbtCollection', name: string }, targetSoul: { __typename?: 'Soul', address: string } }> | null }> | null } };
+
 
 export const WhoamiDocument = gql`
     query whoami {
@@ -509,3 +516,53 @@ export function useAddEventCollectionCreateMutation(baseOptions?: Apollo.Mutatio
 export type AddEventCollectionCreateMutationHookResult = ReturnType<typeof useAddEventCollectionCreateMutation>;
 export type AddEventCollectionCreateMutationResult = Apollo.MutationResult<AddEventCollectionCreateMutation>;
 export type AddEventCollectionCreateMutationOptions = Apollo.BaseMutationOptions<AddEventCollectionCreateMutation, AddEventCollectionCreateMutationVariables>;
+export const MyCollectionsDocument = gql`
+    query myCollections($onlyMine: Boolean!) {
+  whoami {
+    collections(onlyMine: $onlyMine) {
+      address
+      tokens {
+        id
+        createdAt
+        updatedAt
+        idInCollection
+        collection {
+          name
+        }
+        targetSoul {
+          address
+        }
+        metadata
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useMyCollectionsQuery__
+ *
+ * To run a query within a React component, call `useMyCollectionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyCollectionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyCollectionsQuery({
+ *   variables: {
+ *      onlyMine: // value for 'onlyMine'
+ *   },
+ * });
+ */
+export function useMyCollectionsQuery(baseOptions: Apollo.QueryHookOptions<MyCollectionsQuery, MyCollectionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MyCollectionsQuery, MyCollectionsQueryVariables>(MyCollectionsDocument, options);
+      }
+export function useMyCollectionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyCollectionsQuery, MyCollectionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MyCollectionsQuery, MyCollectionsQueryVariables>(MyCollectionsDocument, options);
+        }
+export type MyCollectionsQueryHookResult = ReturnType<typeof useMyCollectionsQuery>;
+export type MyCollectionsLazyQueryHookResult = ReturnType<typeof useMyCollectionsLazyQuery>;
+export type MyCollectionsQueryResult = Apollo.QueryResult<MyCollectionsQuery, MyCollectionsQueryVariables>;

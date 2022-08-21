@@ -20,11 +20,12 @@
 }
 
 .img {
+  position: relative;
   flex-shrink: 0;
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(0deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.56)), linear-gradient(117.58deg, #CB88FF -8.22%, #FF8AA6 62.35%, #F9A279 131.36%);
+  overflow: hidden;
 }
 
 .bottom {

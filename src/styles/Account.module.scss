@@ -66,4 +66,10 @@
   &:nth-child(even) {
     background: #F6F5FF;
   }
+
+  div {
+    display: inline-block;
+    vertical-align: -4px;
+    margin-left: 12px;
+  }
 }

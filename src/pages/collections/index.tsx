@@ -1,23 +1,51 @@
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import styles from '../../styles/Collections.module.scss';
 import {Button, Card, Input, Modal, P, ProxyCard, RoleSwitch} from '../../components';
 import cn from 'classnames';
 import {ProxiesTable} from '../../components';
 import {useRoleStore} from '../../store/store';
-import {useWhoamiQuery} from '../../generated/graphql';
+import {useMyCollectionsLazyQuery} from '../../generated/graphql';
 import {NewProxyBtn} from '../../components/NewProxyBtn/NewProxyBtn';
+import moment from 'moment';
 
 export default function CollectionsPage(): ReactNode {
   const [isModalShown, setIsModalShown] = useState(false);
+  const [tokens, setTokens] = useState<any[]>([]);
   const [view, setView] = useState('list');
   const {role} = useRoleStore();
-  const {data} = useWhoamiQuery();
+  const [getCollections, {data}] = useMyCollectionsLazyQuery();
+
+  const getTokens = (data: any) => {
+    const arr: any[] = [];
+    data.whoami.collections.forEach((collection: any) => {
+      collection.tokens.forEach((token: any) => {
+        arr.push(token);
+      });
+    });
+    setTokens(arr);
+  };
+
+  useEffect(() => {
+    getCollections({variables: {onlyMine: true}});
+  }, []);
+
+  useEffect(() => {
+    if (role === 'representative') {
+      getCollections({variables: {onlyMine: false}});
+    }
+  }, [role]);
+
+  useEffect(() => {
+    if (data) {
+      getTokens(data);
+    }
+  }, [data]);
 
   return (
     <>
       <div className={styles.wrapper}>
         <RoleSwitch/>
-        {role === 'issuer' &&
+        {(role === 'issuer' || role === 'representative') &&
           <>
             <P size="l" weight="bold">Issued Proxies</P>
             <div className={styles.switch_view}>
@@ -26,16 +54,15 @@ export default function CollectionsPage(): ReactNode {
             </div>
             {view === 'cards' &&
               <div className={styles.cards}>
-                <ProxyCard name="Michael Williams"/>
-                <ProxyCard name="Michael Williams"/>
-                <ProxyCard name="Michael Williams"/>
-                <ProxyCard name="Michael Williams"/>
+                {tokens.map((token: any, key: number) => (
+                  <ProxyCard name={token.metadata.agentNickname} tokenId={token.idInCollection} soul={token.targetSoul.address} role={token.metadata.positionName} collectionName={token.collection.name} valid={moment(token.metadata.expiration).format('DD MMM YYYY hh:mm:ss')} key={key}/>
+                ))}
               </div>
             }
             {view === 'list' &&
               <>
-                {data &&
-                  <ProxiesTable data={data}/>
+                {tokens &&
+                  <ProxiesTable tokens={tokens}/>
                 }
               </>
             }

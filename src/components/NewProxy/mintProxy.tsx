@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useRouter} from 'next/router';
 import {Button, Card, Input, P, Textarea, SelectBlock, Loader, Modal} from '../../components';
 import {createMetaData} from '../../utils/misc';
 import {useValueStorage} from '../Select/valueStorage';
@@ -29,6 +30,7 @@ export const MintProxy = () => {
     socialsError: false,
     paramsError: false
   });
+  const router = useRouter();
 
   // eslint-disable-next-line complexity,sonarjs/cognitive-complexity
   const mint = async () => {
@@ -106,6 +108,7 @@ export const MintProxy = () => {
             if (res.data?.addEventTokenCreate) {
               setLoadDeployment(false);
               setContractDeployResult('deployed');
+              router.push('/collections');
             } else {
               setLoadDeployment(false);
               // eslint-disable-next-line sonarjs/no-duplicate-string
@@ -150,19 +153,19 @@ export const MintProxy = () => {
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px'}}>
         <P weight="bold">1. Telegram</P>
         <div style={{width: '70%'}}>
-          <Input placeholder="Position name" id={'telegram_id'} onChange={() => setError({...error, socialsError: false})} style={error.socialsError ? errorStyle : undefined}/>
+          <Input placeholder="" id={'telegram_id'} onChange={() => setError({...error, socialsError: false})} style={error.socialsError ? errorStyle : undefined}/>
         </div>
       </div>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px'}}>
         <P weight="bold">2. Twitter</P>
         <div style={{width: '70%'}}>
-          <Input placeholder="Position name" id={'twitter_id'} onChange={() => setError({...error, socialsError: false})} style={error.socialsError ? errorStyle : undefined}/>
+          <Input placeholder="" id={'twitter_id'} onChange={() => setError({...error, socialsError: false})} style={error.socialsError ? errorStyle : undefined}/>
         </div>
       </div>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px'}}>
         <P weight="bold">3. Discord</P>
         <div style={{width: '70%'}}>
-          <Input placeholder="Position name" id={'discord_id'} onChange={() => setError({...error, socialsError: false})} style={error.socialsError ? errorStyle : undefined}/>
+          <Input placeholder="" id={'discord_id'} onChange={() => setError({...error, socialsError: false})} style={error.socialsError ? errorStyle : undefined}/>
         </div>
       </div>
       <P size="sm" weight="bold" style={{marginTop: '20px'}}>Set SBT params</P>
