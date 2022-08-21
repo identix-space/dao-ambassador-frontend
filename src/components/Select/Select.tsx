@@ -1,19 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {SelectProps} from './Select.props';
 import Select, {StylesConfig} from 'react-select';
+import {useValueStorage} from './valueStorage';
 
 type MyOptionType = {
-  value: string;
+  value: number;
   label: string;
 };
 type IsMulti = false;
 
+const oneMonth = 1000 * 60 * 60 * 24 * 30;
+
 export const SelectBlock = ({placeholder = '', ...props}: SelectProps): JSX.Element => {
-  const [value, setValue] = useState('');
+
+  const {value, setValue} = useValueStorage();
+
   const [options, setOptions] = useState<MyOptionType[]>();
 
   useEffect(() => {
-    setOptions([{value: 'sdsdsa', label: 'sagjjnask'}, {value: 'sdsa', label: 'sagjjnask'}]);
+    setOptions([{value: oneMonth, label: '1 month'}, {value: oneMonth * 3, label: '3 month\'s'}, {value: oneMonth * 6, label: '6 month\'s'}, {value: oneMonth * 12, label: '1 year'}]);
   }, []);
 
   const customStyles: StylesConfig<MyOptionType, IsMulti> = {

@@ -59,21 +59,20 @@ scalar Json
 
 type Mutation {
   activateAccount(code: String!, email: String!): Boolean!
-  addEventCollectionCreate(collectionName: String!, collectionSymbol: String!, contractAddress: String!, txHash: String!): Boolean!
-  addEventSoulCreate(soulAddress: String!, txHash: String!): Boolean!
-  addEventTokenCreate(collectionContractAddress: String!, description: String!, metadata: Json!, soulAddress: String!, tokenId: String!, txHash: String!): Boolean!
+  addEventCollectionCreate(collectionName: String!, collectionSymbol: String!, contractAddress: String!): Boolean!
+  addEventSoulCreate(soulAddress: String!): Boolean!
+  addEventTokenCreate(collectionContractAddress: String!, description: String!, metadataId: Int!, soulAddress: String!, tokenId: String!): Boolean!
   changePassword(newPassword: String!, password: String!): Boolean!
   echo(text: String!): String!
   generateEmailCode(email: String!): GenerateEmailCodeResult!
-  generateOtc(address: String!): String!
   login(email: String!, password: String!): AuthResult!
   logout(
     """List of sessions id. Don't pass for logout all sessions."""
     sessionIds: [Int!]
   ): Boolean!
+  metadataCreate(metadata: Json!): Int!
   register(email: String!, password: String!): AuthResult!
   resetPassword(email: String!, emailCode: String!, newPassword: String!): Boolean!
-  verifyOtc(address: String!, code: String!, signature: String!): AuthResult!
 }
 
 interface Node {

@@ -84,12 +84,11 @@ export type Mutation = {
   changePassword: Scalars['Boolean'];
   echo: Scalars['String'];
   generateEmailCode: GenerateEmailCodeResult;
-  generateOtc: Scalars['String'];
   login: AuthResult;
   logout: Scalars['Boolean'];
+  metadataCreate: Scalars['Int'];
   register: AuthResult;
   resetPassword: Scalars['Boolean'];
-  verifyOtc: AuthResult;
 };
 
 
@@ -103,23 +102,20 @@ export type MutationAddEventCollectionCreateArgs = {
   collectionName: Scalars['String'];
   collectionSymbol: Scalars['String'];
   contractAddress: Scalars['String'];
-  txHash: Scalars['String'];
 };
 
 
 export type MutationAddEventSoulCreateArgs = {
   soulAddress: Scalars['String'];
-  txHash: Scalars['String'];
 };
 
 
 export type MutationAddEventTokenCreateArgs = {
   collectionContractAddress: Scalars['String'];
   description: Scalars['String'];
-  metadata: Scalars['Json'];
+  metadataId: Scalars['Int'];
   soulAddress: Scalars['String'];
   tokenId: Scalars['String'];
-  txHash: Scalars['String'];
 };
 
 
@@ -139,11 +135,6 @@ export type MutationGenerateEmailCodeArgs = {
 };
 
 
-export type MutationGenerateOtcArgs = {
-  address: Scalars['String'];
-};
-
-
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -152,6 +143,11 @@ export type MutationLoginArgs = {
 
 export type MutationLogoutArgs = {
   sessionIds?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+
+export type MutationMetadataCreateArgs = {
+  metadata: Scalars['Json'];
 };
 
 
@@ -165,13 +161,6 @@ export type MutationResetPasswordArgs = {
   email: Scalars['String'];
   emailCode: Scalars['String'];
   newPassword: Scalars['String'];
-};
-
-
-export type MutationVerifyOtcArgs = {
-  address: Scalars['String'];
-  code: Scalars['String'];
-  signature: Scalars['String'];
 };
 
 export type Node = {
@@ -267,97 +256,46 @@ export type UserAgentOs = {
   version?: Maybe<Scalars['String']>;
 };
 
-export type GenerateOtcMutationVariables = Exact<{
-  address: Scalars['String'];
-}>;
-
-
-export type GenerateOtcMutation = { __typename?: 'Mutation', generateOtc: string };
-
-export type VerifyOtcMutationVariables = Exact<{
-  address: Scalars['String'];
-  code: Scalars['String'];
-  signature: Scalars['String'];
-}>;
-
-
-export type VerifyOtcMutation = { __typename?: 'Mutation', verifyOtc: { __typename?: 'AuthResult', token: string, account: { __typename?: 'Account', id: number } } };
-
 export type WhoamiQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type WhoamiQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, createdAt: any, updatedAt: any, status: AccountStatus, roles: Array<AccountRole>, souls?: Array<{ __typename?: 'Soul', id: number, createdAt: any, updatedAt: any, address: string, owner: { __typename?: 'Account', sessions?: Array<{ __typename?: 'AccountSession', address?: string | null }> | null }, relatedTokens?: Array<{ __typename?: 'SbtToken', id: number, createdAt: any, updatedAt: any, idInCollection: string, metadata: any, collection: { __typename?: 'SbtCollection', name: string }, creator: { __typename?: 'Account', sessions?: Array<{ __typename?: 'AccountSession', address?: string | null }> | null }, targetSoul: { __typename?: 'Soul', id: number, address: string, owner: { __typename?: 'Account', sessions?: Array<{ __typename?: 'AccountSession', address?: string | null }> | null } } }> | null }> | null } };
 
+export type MetadataCreateMutationVariables = Exact<{
+  metadata: Scalars['Json'];
+}>;
 
-export const GenerateOtcDocument = gql`
-    mutation GenerateOtc($address: String!) {
-  generateOtc(address: $address)
-}
-    `;
-export type GenerateOtcMutationFn = Apollo.MutationFunction<GenerateOtcMutation, GenerateOtcMutationVariables>;
 
-/**
- * __useGenerateOtcMutation__
- *
- * To run a mutation, you first call `useGenerateOtcMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useGenerateOtcMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [generateOtcMutation, { data, loading, error }] = useGenerateOtcMutation({
- *   variables: {
- *      address: // value for 'address'
- *   },
- * });
- */
-export function useGenerateOtcMutation(baseOptions?: Apollo.MutationHookOptions<GenerateOtcMutation, GenerateOtcMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<GenerateOtcMutation, GenerateOtcMutationVariables>(GenerateOtcDocument, options);
-      }
-export type GenerateOtcMutationHookResult = ReturnType<typeof useGenerateOtcMutation>;
-export type GenerateOtcMutationResult = Apollo.MutationResult<GenerateOtcMutation>;
-export type GenerateOtcMutationOptions = Apollo.BaseMutationOptions<GenerateOtcMutation, GenerateOtcMutationVariables>;
-export const VerifyOtcDocument = gql`
-    mutation VerifyOtc($address: String!, $code: String!, $signature: String!) {
-  verifyOtc(address: $address, code: $code, signature: $signature) {
-    account {
-      id
-    }
-    token
-  }
-}
-    `;
-export type VerifyOtcMutationFn = Apollo.MutationFunction<VerifyOtcMutation, VerifyOtcMutationVariables>;
+export type MetadataCreateMutation = { __typename?: 'Mutation', metadataCreate: number };
 
-/**
- * __useVerifyOtcMutation__
- *
- * To run a mutation, you first call `useVerifyOtcMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useVerifyOtcMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [verifyOtcMutation, { data, loading, error }] = useVerifyOtcMutation({
- *   variables: {
- *      address: // value for 'address'
- *      code: // value for 'code'
- *      signature: // value for 'signature'
- *   },
- * });
- */
-export function useVerifyOtcMutation(baseOptions?: Apollo.MutationHookOptions<VerifyOtcMutation, VerifyOtcMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<VerifyOtcMutation, VerifyOtcMutationVariables>(VerifyOtcDocument, options);
-      }
-export type VerifyOtcMutationHookResult = ReturnType<typeof useVerifyOtcMutation>;
-export type VerifyOtcMutationResult = Apollo.MutationResult<VerifyOtcMutation>;
-export type VerifyOtcMutationOptions = Apollo.BaseMutationOptions<VerifyOtcMutation, VerifyOtcMutationVariables>;
+export type AddEventTokenCreateMutationVariables = Exact<{
+  collectionContractAddress: Scalars['String'];
+  tokenId: Scalars['String'];
+  description: Scalars['String'];
+  soulAddress: Scalars['String'];
+  metadataId: Scalars['Int'];
+}>;
+
+
+export type AddEventTokenCreateMutation = { __typename?: 'Mutation', addEventTokenCreate: boolean };
+
+export type AddEventSoulCreateMutationVariables = Exact<{
+  soulAddress: Scalars['String'];
+}>;
+
+
+export type AddEventSoulCreateMutation = { __typename?: 'Mutation', addEventSoulCreate: boolean };
+
+export type AddEventCollectionCreateMutationVariables = Exact<{
+  contractAddress: Scalars['String'];
+  collectionName: Scalars['String'];
+  collectionSymbol: Scalars['String'];
+}>;
+
+
+export type AddEventCollectionCreateMutation = { __typename?: 'Mutation', addEventCollectionCreate: boolean };
+
+
 export const WhoamiDocument = gql`
     query whoami {
   whoami {
@@ -431,3 +369,143 @@ export function useWhoamiLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Who
 export type WhoamiQueryHookResult = ReturnType<typeof useWhoamiQuery>;
 export type WhoamiLazyQueryHookResult = ReturnType<typeof useWhoamiLazyQuery>;
 export type WhoamiQueryResult = Apollo.QueryResult<WhoamiQuery, WhoamiQueryVariables>;
+export const MetadataCreateDocument = gql`
+    mutation MetadataCreate($metadata: Json!) {
+  metadataCreate(metadata: $metadata)
+}
+    `;
+export type MetadataCreateMutationFn = Apollo.MutationFunction<MetadataCreateMutation, MetadataCreateMutationVariables>;
+
+/**
+ * __useMetadataCreateMutation__
+ *
+ * To run a mutation, you first call `useMetadataCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMetadataCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [metadataCreateMutation, { data, loading, error }] = useMetadataCreateMutation({
+ *   variables: {
+ *      metadata: // value for 'metadata'
+ *   },
+ * });
+ */
+export function useMetadataCreateMutation(baseOptions?: Apollo.MutationHookOptions<MetadataCreateMutation, MetadataCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MetadataCreateMutation, MetadataCreateMutationVariables>(MetadataCreateDocument, options);
+      }
+export type MetadataCreateMutationHookResult = ReturnType<typeof useMetadataCreateMutation>;
+export type MetadataCreateMutationResult = Apollo.MutationResult<MetadataCreateMutation>;
+export type MetadataCreateMutationOptions = Apollo.BaseMutationOptions<MetadataCreateMutation, MetadataCreateMutationVariables>;
+export const AddEventTokenCreateDocument = gql`
+    mutation AddEventTokenCreate($collectionContractAddress: String!, $tokenId: String!, $description: String!, $soulAddress: String!, $metadataId: Int!) {
+  addEventTokenCreate(
+    collectionContractAddress: $collectionContractAddress
+    tokenId: $tokenId
+    description: $description
+    soulAddress: $soulAddress
+    metadataId: $metadataId
+  )
+}
+    `;
+export type AddEventTokenCreateMutationFn = Apollo.MutationFunction<AddEventTokenCreateMutation, AddEventTokenCreateMutationVariables>;
+
+/**
+ * __useAddEventTokenCreateMutation__
+ *
+ * To run a mutation, you first call `useAddEventTokenCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddEventTokenCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addEventTokenCreateMutation, { data, loading, error }] = useAddEventTokenCreateMutation({
+ *   variables: {
+ *      collectionContractAddress: // value for 'collectionContractAddress'
+ *      tokenId: // value for 'tokenId'
+ *      description: // value for 'description'
+ *      soulAddress: // value for 'soulAddress'
+ *      metadataId: // value for 'metadataId'
+ *   },
+ * });
+ */
+export function useAddEventTokenCreateMutation(baseOptions?: Apollo.MutationHookOptions<AddEventTokenCreateMutation, AddEventTokenCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddEventTokenCreateMutation, AddEventTokenCreateMutationVariables>(AddEventTokenCreateDocument, options);
+      }
+export type AddEventTokenCreateMutationHookResult = ReturnType<typeof useAddEventTokenCreateMutation>;
+export type AddEventTokenCreateMutationResult = Apollo.MutationResult<AddEventTokenCreateMutation>;
+export type AddEventTokenCreateMutationOptions = Apollo.BaseMutationOptions<AddEventTokenCreateMutation, AddEventTokenCreateMutationVariables>;
+export const AddEventSoulCreateDocument = gql`
+    mutation AddEventSoulCreate($soulAddress: String!) {
+  addEventSoulCreate(soulAddress: $soulAddress)
+}
+    `;
+export type AddEventSoulCreateMutationFn = Apollo.MutationFunction<AddEventSoulCreateMutation, AddEventSoulCreateMutationVariables>;
+
+/**
+ * __useAddEventSoulCreateMutation__
+ *
+ * To run a mutation, you first call `useAddEventSoulCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddEventSoulCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addEventSoulCreateMutation, { data, loading, error }] = useAddEventSoulCreateMutation({
+ *   variables: {
+ *      soulAddress: // value for 'soulAddress'
+ *   },
+ * });
+ */
+export function useAddEventSoulCreateMutation(baseOptions?: Apollo.MutationHookOptions<AddEventSoulCreateMutation, AddEventSoulCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddEventSoulCreateMutation, AddEventSoulCreateMutationVariables>(AddEventSoulCreateDocument, options);
+      }
+export type AddEventSoulCreateMutationHookResult = ReturnType<typeof useAddEventSoulCreateMutation>;
+export type AddEventSoulCreateMutationResult = Apollo.MutationResult<AddEventSoulCreateMutation>;
+export type AddEventSoulCreateMutationOptions = Apollo.BaseMutationOptions<AddEventSoulCreateMutation, AddEventSoulCreateMutationVariables>;
+export const AddEventCollectionCreateDocument = gql`
+    mutation AddEventCollectionCreate($contractAddress: String!, $collectionName: String!, $collectionSymbol: String!) {
+  addEventCollectionCreate(
+    contractAddress: $contractAddress
+    collectionName: $collectionName
+    collectionSymbol: $collectionSymbol
+  )
+}
+    `;
+export type AddEventCollectionCreateMutationFn = Apollo.MutationFunction<AddEventCollectionCreateMutation, AddEventCollectionCreateMutationVariables>;
+
+/**
+ * __useAddEventCollectionCreateMutation__
+ *
+ * To run a mutation, you first call `useAddEventCollectionCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddEventCollectionCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addEventCollectionCreateMutation, { data, loading, error }] = useAddEventCollectionCreateMutation({
+ *   variables: {
+ *      contractAddress: // value for 'contractAddress'
+ *      collectionName: // value for 'collectionName'
+ *      collectionSymbol: // value for 'collectionSymbol'
+ *   },
+ * });
+ */
+export function useAddEventCollectionCreateMutation(baseOptions?: Apollo.MutationHookOptions<AddEventCollectionCreateMutation, AddEventCollectionCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddEventCollectionCreateMutation, AddEventCollectionCreateMutationVariables>(AddEventCollectionCreateDocument, options);
+      }
+export type AddEventCollectionCreateMutationHookResult = ReturnType<typeof useAddEventCollectionCreateMutation>;
+export type AddEventCollectionCreateMutationResult = Apollo.MutationResult<AddEventCollectionCreateMutation>;
+export type AddEventCollectionCreateMutationOptions = Apollo.BaseMutationOptions<AddEventCollectionCreateMutation, AddEventCollectionCreateMutationVariables>;

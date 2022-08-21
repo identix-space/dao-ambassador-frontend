@@ -3,15 +3,17 @@ import styles from '../../styles/Account.module.scss';
 import Image from 'next/image';
 import {Button, Loader, Modal, P} from '../../components';
 import useWallet from '../../hooks/useWallet';
-import {useWhoamiQuery} from '../../generated/graphql';
+import {useAddEventSoulCreateMutation, useWhoamiQuery} from '../../generated/graphql';
 import stylesPlus from '../../styles/Collections.module.scss';
 import {deployContract} from '../../utils/deploySmartContract';
 import {ContractDeployResultType} from '../../components/NewProxy';
 
 
+// eslint-disable-next-line complexity
 export default function AccountPage(): ReactNode {
   const {context} = useWallet();
   const {data} = useWhoamiQuery();
+  const [addEventSoulCreateMutation] = useAddEventSoulCreateMutation();
   const [isModalShown, setIsModalShown] = useState(false);
   const [contractDeployResult, setContractDeployResult] = React.useState<ContractDeployResultType>(null);
   const [loadDeployment, setLoadDeployment] = useState<boolean>(false);
@@ -24,8 +26,17 @@ export default function AccountPage(): ReactNode {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (deployResult._address) {
-        setContractDeployResult('deployed');
-        setLoadDeployment(false);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const res = await addEventSoulCreateMutation({variables: {soulAddress: deployResult._address}});
+        if (res.data?.addEventSoulCreate) {
+          setContractDeployResult('deployed');
+          setLoadDeployment(false);
+        } else {
+          // eslint-disable-next-line sonarjs/no-duplicate-string
+          setContractDeployResult('not-deployed');
+          setLoadDeployment(false);
+        }
       } else {
         // eslint-disable-next-line sonarjs/no-duplicate-string
         setContractDeployResult('not-deployed');

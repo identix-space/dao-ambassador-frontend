@@ -1,16 +1,3 @@
-mutation GenerateOtc($address: String!) {
-    generateOtc(address: $address)
-}
-
-mutation VerifyOtc($address: String!, $code: String!, $signature: String!) {
-    verifyOtc(address: $address, code: $code, signature: $signature) {
-        account {
-            id
-        }
-        token
-    }
-}
-
 query whoami {
     whoami {
         id
@@ -54,4 +41,40 @@ query whoami {
             }
         }
     }
+}
+
+mutation MetadataCreate($metadata: Json!) {
+    metadataCreate (metadata: $metadata)
+}
+
+mutation AddEventTokenCreate(
+    $collectionContractAddress: String!
+    $tokenId: String!
+    $description: String!
+    $soulAddress: String!
+    $metadataId: Int!
+) {
+    addEventTokenCreate(
+        collectionContractAddress: $collectionContractAddress
+        tokenId: $tokenId
+        description: $description
+        soulAddress: $soulAddress
+        metadataId: $metadataId
+    )
+}
+
+mutation AddEventSoulCreate($soulAddress: String!) {
+    addEventSoulCreate(soulAddress: $soulAddress)
+}
+
+mutation AddEventCollectionCreate(
+    $contractAddress: String!
+    $collectionName: String!
+    $collectionSymbol: String!
+) {
+    addEventCollectionCreate(
+        contractAddress: $contractAddress
+        collectionName: $collectionName
+        collectionSymbol: $collectionSymbol
+    )
 }

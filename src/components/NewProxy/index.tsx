@@ -5,11 +5,14 @@ import {Input} from '../Input/Input';
 import {Button} from '../Button/Button';
 import styles from '../../styles/Login.module.scss';
 import {deployContract} from '../../utils/deploySmartContract';
+import {useAddEventCollectionCreateMutation} from '../../generated/graphql';
 
 export type ContractDeployResultType = 'deployed' | 'not-deployed' | null
 
 // eslint-disable-next-line complexity
 export const NewProxy = () => {
+
+  const [addEventCollectionCreateMutation] = useAddEventCollectionCreateMutation();
 
   const [load, setLoad] = React.useState<boolean>(false);
   const [error, setError] = React.useState({
@@ -43,11 +46,20 @@ export const NewProxy = () => {
       const contract = await deployContract('soulBound', name, symbol, addr); //addr = 0xC7ceDD725a1EB415fcA4CAEd7b754628f41A3325
       console.log({contract});
       if (contract) {
-        setContractDeployResult('deployed');
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        setContractAddressAfterDeploy(contract._address);
-        setLoad(false);
+        const res = await addEventCollectionCreateMutation({variables: {contractAddress: contract._address, collectionName: name, collectionSymbol: symbol}});
+        if (res.data?.addEventCollectionCreate) {
+          setContractDeployResult('deployed');
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          setContractAddressAfterDeploy(contract._address);
+          setLoad(false);
+        } else {
+          // eslint-disable-next-line sonarjs/no-duplicate-string
+          setContractDeployResult('not-deployed');
+          setLoad(false);
+        }
       } else {
         // eslint-disable-next-line sonarjs/no-duplicate-string
         setContractDeployResult('not-deployed');

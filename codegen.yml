@@ -1,5 +1,8 @@
 overwrite: true
-schema: ${NEXT_PUBLIC_GRAPHQL_API_URL}
+schema:
+    - ${NEXT_PUBLIC_GRAPHQL_API_URL}:
+          headers:
+              address: "${NEXT_PUBLIC_MY_ADDRESS}"
 documents: "./src/graphql/**/*.graphql"
 generates:
     src/generated/graphql.tsx:

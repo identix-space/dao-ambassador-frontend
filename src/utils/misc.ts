@@ -12,3 +12,32 @@ export function redirect(url: string): void {
     window.location.href = url;
   }
 }
+
+export const randomNumber = (): number => {
+  // eslint-disable-next-line no-magic-numbers
+  return Math.floor(Math.random() * (100000000000000000000000000000000000000000000000000000000000000000000000 - 1)) + 1;
+};
+
+interface MetaData {
+  agentNickname: string;
+  positionName: string;
+  powerDescription: string;
+  telegram?: string;
+  twitter?: string;
+  discord?: string;
+  expiration: Date;
+}
+
+export const createMetaData = ({agentNickname, positionName, powerDescription, telegram, twitter, discord, expiration}: MetaData) => {
+  return {
+    agentNickname: agentNickname,
+    positionName: positionName,
+    powerDescription: powerDescription,
+    socialAccounts: {
+      telegram: telegram ? telegram : '',
+      twitter: twitter ? twitter : '',
+      discord: discord ? discord : ''
+    },
+    expiration: expiration
+  };
+};
