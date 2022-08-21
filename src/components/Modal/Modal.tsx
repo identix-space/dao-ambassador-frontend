@@ -11,9 +11,10 @@ export interface ModalProps {
     hide?: () => void;
     modalContent?: string;
     modalTitle?: string;
+    children?: React.ReactNode
 }
 
-export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalTitle}) => {
+export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalTitle, children}) => {
   const [notExpired] = useState(false);
   const [isNotProxyOwner] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -28,22 +29,25 @@ export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalTitle}
     <>
       <div className={styles.backdrop} onClick={hide}/>
       <div className={styles.wrapper}>
-        <div className={styles.content}>
-          <P size="l" weight="bold">{modalTitle}</P>
-          <div className={styles.results}>
-            <div className={styles.result}>
-              <Image src={notExpired ? CheckGreen : CheckRed} width={37} height={37}/>
-              {notExpired
-                ? <span>Proxy is not expired</span>
-                : <span>Proxy is expired</span>
-              }
-            </div>
-            <div className={styles.result}>
-              <Image src={isNotProxyOwner ? CheckGreen : CheckRed} width={37} height={37}/>
-              <span>The entered Soul is the Proxy owner</span>
+        {children
+          ? <>{children}</>
+          : <div className={styles.content}>
+            <P size="l" weight="bold">{modalTitle}</P>
+            <div className={styles.results}>
+              <div className={styles.result}>
+                <Image src={notExpired ? CheckGreen : CheckRed} width={37} height={37}/>
+                {notExpired
+                  ? <span>Proxy is not expired</span>
+                  : <span>Proxy is expired</span>
+                }
+              </div>
+              <div className={styles.result}>
+                <Image src={isNotProxyOwner ? CheckGreen : CheckRed} width={37} height={37}/>
+                <span>The entered Soul is the Proxy owner</span>
+              </div>
             </div>
           </div>
-        </div>
+        }
         <div className={styles.close} onClick={hide}/>
       </div>
     </>

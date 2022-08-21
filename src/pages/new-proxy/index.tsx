@@ -1,18 +1,11 @@
 import React, {ReactNode} from 'react';
 import {Button, Card, Input, P, Textarea, SelectBlock} from '../../components';
+import {NewProxy} from '../../components/NewProxy';
 
 export default function NewProxyPage(): ReactNode {
   return (
     <>
-      <P size="l" weight="bold">New Proxy Group</P>
-      <P style={{width: '620px', textAlign: 'center', marginTop: '18px'}}>Choose a meaningful name for the Group so that it is clear at a glance which representatives it covers. For example, DAO X Gold Contributors</P>
-      <Card style={{marginTop: '40px', gap: '18px'}}>
-        <Input placeholder="Group name"/>
-        <Input placeholder="Group symbol"/>
-        <div style={{width: '100%', margin: '50px 0 25px'}}>
-          <Button size="l">Create new group</Button>
-        </div>
-      </Card>
+      <NewProxy/>
 
       <P size="l" weight="bold" style={{marginTop: '40px'}}>Create New Proxy</P>
       <Card style={{marginTop: '40px', gap: '18px'}}>

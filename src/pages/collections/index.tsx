@@ -1,9 +1,8 @@
 import React, {ReactNode, useState} from 'react';
 import styles from '../../styles/Collections.module.scss';
-import {Button, Card, Input, Loader, Modal, P, ProxyCard, RoleSwitch} from '../../components';
+import {Button, Card, Input, Modal, P, ProxyCard, RoleSwitch} from '../../components';
 import cn from 'classnames';
 import {ProxiesTable} from '../../components';
-import {redirect} from '../../utils/misc';
 import {useRoleStore} from '../../store/store';
 import {useWhoamiQuery} from '../../generated/graphql';
 import {NewProxyBtn} from '../../components/NewProxyBtn/NewProxyBtn';
@@ -18,7 +17,6 @@ export default function CollectionsPage(): ReactNode {
     <>
       <div className={styles.wrapper}>
         <RoleSwitch/>
-        <button onClick={() => redirect('/')}>GO</button>
         {role === 'issuer' &&
           <>
             <P size="l" weight="bold">Issued Proxies</P>

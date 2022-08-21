@@ -3955,7 +3955,7 @@ export const deployContract = async (variant: deployContractVariant, name?: stri
   const contract = new web3.eth.Contract(abi as unknown as AbiItem, '0x0000000000000000000000000000000000000000');
   const deployTx = contract.deploy({data: bytecode.object, arguments: args});
 
-  const res = await deployTx.send({from: currentAccounts[0], gas: 4500000, gasPrice: '30000000000'});
+  const res = await deployTx.send({from: currentAccounts[0], gas: 4500000, gasPrice: '30000000000'}); // test gas: 1500000 for soul , gas: 4500000 for soulBound
   console.log({deployTx});
   console.log({res});
   return res;

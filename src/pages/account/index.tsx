@@ -1,15 +1,48 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useState} from 'react';
 import styles from '../../styles/Account.module.scss';
 import Image from 'next/image';
-import {P} from '../../components';
+import {Button, Loader, Modal, P} from '../../components';
 import useWallet from '../../hooks/useWallet';
 import {useWhoamiQuery} from '../../generated/graphql';
-import {NewProxyBtn} from '../../components/NewProxyBtn/NewProxyBtn';
+import stylesPlus from '../../styles/Collections.module.scss';
+import {deployContract} from '../../utils/deploySmartContract';
+import {ContractDeployResultType} from '../../components/NewProxy';
 
 
 export default function AccountPage(): ReactNode {
   const {context} = useWallet();
   const {data} = useWhoamiQuery();
+  const [isModalShown, setIsModalShown] = useState(false);
+  const [contractDeployResult, setContractDeployResult] = React.useState<ContractDeployResultType>(null);
+  const [loadDeployment, setLoadDeployment] = useState<boolean>(false);
+
+  const deploySoul = async () => {
+    setLoadDeployment(true);
+    setContractDeployResult(null);
+    try {
+      const deployResult = await deployContract('soul');
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (deployResult._address) {
+        setContractDeployResult('deployed');
+        setLoadDeployment(false);
+      } else {
+        // eslint-disable-next-line sonarjs/no-duplicate-string
+        setContractDeployResult('not-deployed');
+        setLoadDeployment(false);
+      }
+    } catch (e: any) {
+      setContractDeployResult('not-deployed');
+      setLoadDeployment(false);
+    }
+
+  };
+
+  const closeModal = () => {
+    setLoadDeployment(false);
+    setContractDeployResult(null);
+    setIsModalShown(false);
+  };
 
   return (
     <>
@@ -42,7 +75,31 @@ export default function AccountPage(): ReactNode {
           : <P size="l" style={{margin: '95px 0 50px', textAlign: 'center'}}>No souls yet.</P>
         }
       </div>
-      <NewProxyBtn/>
+      <div className={stylesPlus.new_proxy} onClick={() => setIsModalShown(true)}>+</div>
+      <Modal modalTitle="Verification result" isShown={isModalShown} hide={() => closeModal()}>
+        {loadDeployment
+          ? <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', flexDirection: 'column'}}>
+            <Loader/>
+            <P size="s" style={{textAlign: 'center'}}>Please don&apos;t close the page</P>
+          </div>
+          : <>
+            {contractDeployResult === null && (
+              <><P size="l" style={{textAlign: 'center'}}>Create soul?</P>
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '15px'}}>
+                  <Button size="l" style={{marginTop: '40px'}} onClick={() => deploySoul()}>Yes</Button>
+                  <Button size="l" style={{marginTop: '40px'}} onClick={() => setIsModalShown(false)}>No</Button>
+                </div>
+              </>
+            )}
+            {contractDeployResult === 'deployed' && (
+              <><P size="l" style={{textAlign: 'center', color: 'green'}}>Soul was created successfully</P></>
+            )}
+            {contractDeployResult === 'not-deployed' && (
+              <><P size="l" style={{textAlign: 'center', color: 'red'}}>Something go wrong, please try again</P></>
+            )}
+          </>
+        }
+      </Modal>
     </>
   );
 }
