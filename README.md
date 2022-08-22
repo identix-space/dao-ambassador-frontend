@@ -6,7 +6,8 @@ DAO Ambassador is a solution for the digital representation of DAOs. It allows D
 
 This project was developed for the BUIDL IT web3 hackathon https://buidlit.polygon.technology/.
 
-More info: [DEVPOST_LINK]()
+Backend: https://github.com/identix-space/dao-ambassador-backend
+Contracts: https://github.com/identix-space/dao-ambassador-contracts
 
 ## Roles and user stories
 
