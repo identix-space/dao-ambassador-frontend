@@ -12,15 +12,15 @@ More info: [DEVPOST_LINK]()
 
 ### DAO as proxy issuer
 
-![DIAGRAMMA-BEZ-NAZVANIY-4.md.png](https://im.wampi.ru/2022/08/22/DIAGRAMMA-BEZ-NAZVANIY-4.md.png)
+![image036a3b177167c372.png](https://im.wampi.ru/2022/08/22/image036a3b177167c372.png)
 
 ### Representatve
 
-![image891b9cda2dcaf75d.md.png](https://im.wampi.ru/2022/08/22/image891b9cda2dcaf75d.md.png)
+![image5072e8110699d695.png](https://ie.wampi.ru/2022/08/22/image5072e8110699d695.png)
 
 ### Verifier
 
-![imaged75a80fe27ffcc7d.md.png](https://im.wampi.ru/2022/08/22/imaged75a80fe27ffcc7d.md.png)
+![image230d6c834189594f.png](https://ie.wampi.ru/2022/08/22/image230d6c834189594f.png)
 
 
 ## How to build
