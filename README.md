@@ -14,7 +14,7 @@ More info: [DEVPOST_LINK]()
 
 ![image036a3b177167c372.png](https://im.wampi.ru/2022/08/22/image036a3b177167c372.png)
 
-### Representatve
+### Representative
 
 ![image5072e8110699d695.png](https://ie.wampi.ru/2022/08/22/image5072e8110699d695.png)
 
