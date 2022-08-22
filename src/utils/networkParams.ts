@@ -14,10 +14,10 @@ interface Params {
 
 export const networkParams: Params = {
   '0x4': {
-    chainId: '0x4',
-    rpcUrls: ['https://rinkeby.infura.io/v3/35f50afe9c5b41e98dcab7f4c7ba4d80'],
-    chainName: 'Rinkeby',
-    nativeCurrency: {name: 'RETH', decimals: 18, symbol: 'RETH'},
-    blockExplorerUrls: ['https://rinkeby.etherscan.io']
+    chainId: '0x311',
+    rpcUrls: ['https://polygon-rpc.com'],
+    chainName: 'Polygon',
+    nativeCurrency: {name: 'MATIC', decimals: 18, symbol: ':'},
+    blockExplorerUrls: ['https://polygonscan.com']
   }
 };

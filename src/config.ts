@@ -3,5 +3,5 @@ interface Config {
 }
 
 export const config: Config = {
-  chainId: 4
+  chainId: 137
 };
