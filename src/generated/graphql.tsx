@@ -300,7 +300,15 @@ export type MyCollectionsQueryVariables = Exact<{
 }>;
 
 
-export type MyCollectionsQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', collections?: Array<{ __typename?: 'SbtCollection', address: string, tokens?: Array<{ __typename?: 'SbtToken', id: number, createdAt: any, updatedAt: any, idInCollection: string, metadata: any, collection: { __typename?: 'SbtCollection', name: string }, targetSoul: { __typename?: 'Soul', address: string } }> | null }> | null } };
+export type MyCollectionsQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', collections?: Array<{ __typename?: 'SbtCollection', address: string, tokens?: Array<{ __typename?: 'SbtToken', id: number, createdAt: any, updatedAt: any, idInCollection: string, metadata: any, collection: { __typename?: 'SbtCollection', address: string, name: string }, targetSoul: { __typename?: 'Soul', address: string } }> | null }> | null } };
+
+export type GetTokenQueryVariables = Exact<{
+  collectionAddress: Scalars['String'];
+  tokenId: Scalars['String'];
+}>;
+
+
+export type GetTokenQuery = { __typename?: 'Query', token: { __typename?: 'SbtToken', id: number, idInCollection: string, metadata: any, collection: { __typename?: 'SbtCollection', name: string }, targetSoul: { __typename?: 'Soul', address: string } } };
 
 
 export const WhoamiDocument = gql`
@@ -527,6 +535,7 @@ export const MyCollectionsDocument = gql`
         updatedAt
         idInCollection
         collection {
+          address
           name
         }
         targetSoul {
@@ -566,3 +575,47 @@ export function useMyCollectionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type MyCollectionsQueryHookResult = ReturnType<typeof useMyCollectionsQuery>;
 export type MyCollectionsLazyQueryHookResult = ReturnType<typeof useMyCollectionsLazyQuery>;
 export type MyCollectionsQueryResult = Apollo.QueryResult<MyCollectionsQuery, MyCollectionsQueryVariables>;
+export const GetTokenDocument = gql`
+    query getToken($collectionAddress: String!, $tokenId: String!) {
+  token(collectionAddress: $collectionAddress, tokenId: $tokenId) {
+    id
+    collection {
+      name
+    }
+    idInCollection
+    metadata
+    targetSoul {
+      address
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTokenQuery__
+ *
+ * To run a query within a React component, call `useGetTokenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTokenQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTokenQuery({
+ *   variables: {
+ *      collectionAddress: // value for 'collectionAddress'
+ *      tokenId: // value for 'tokenId'
+ *   },
+ * });
+ */
+export function useGetTokenQuery(baseOptions: Apollo.QueryHookOptions<GetTokenQuery, GetTokenQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTokenQuery, GetTokenQueryVariables>(GetTokenDocument, options);
+      }
+export function useGetTokenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTokenQuery, GetTokenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTokenQuery, GetTokenQueryVariables>(GetTokenDocument, options);
+        }
+export type GetTokenQueryHookResult = ReturnType<typeof useGetTokenQuery>;
+export type GetTokenLazyQueryHookResult = ReturnType<typeof useGetTokenLazyQuery>;
+export type GetTokenQueryResult = Apollo.QueryResult<GetTokenQuery, GetTokenQueryVariables>;

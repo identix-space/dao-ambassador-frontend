@@ -89,7 +89,8 @@ query myCollections($onlyMine: Boolean!) {
                updatedAt
                idInCollection
                collection {
-                    name
+                   address
+                   name
                }
                targetSoul {
                    address
@@ -98,4 +99,18 @@ query myCollections($onlyMine: Boolean!) {
            }
        }
    }
+}
+
+query getToken($collectionAddress: String!, $tokenId: String!) {
+    token(collectionAddress: $collectionAddress, tokenId: $tokenId) {
+        id
+        collection {
+            name
+        }
+        idInCollection
+        metadata
+        targetSoul {
+            address
+        }
+    }
 }

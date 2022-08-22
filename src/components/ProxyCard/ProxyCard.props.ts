@@ -6,5 +6,6 @@ export interface ProxyCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDiv
     soul: string;
     role: string;
     collectionName: string;
+    collectionAddress: string;
     valid: string;
 }

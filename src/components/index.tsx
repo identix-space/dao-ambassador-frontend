@@ -11,3 +11,4 @@ export * from './RoleSwitch/RoleSwitch';
 export * from './Select/Select';
 export * from './Modal/Modal';
 export * from './Loader/Loader';
+export * from './BackButton/BackButton';

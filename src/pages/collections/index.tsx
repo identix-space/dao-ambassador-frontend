@@ -26,12 +26,12 @@ export default function CollectionsPage(): ReactNode {
   };
 
   useEffect(() => {
-    getCollections({variables: {onlyMine: true}});
+    getCollections({variables: {onlyMine: true}, fetchPolicy: 'no-cache'});
   }, []);
 
   useEffect(() => {
     if (role === 'representative') {
-      getCollections({variables: {onlyMine: false}});
+      getCollections({variables: {onlyMine: false}, fetchPolicy: 'no-cache'});
     }
   }, [role]);
 
@@ -55,7 +55,7 @@ export default function CollectionsPage(): ReactNode {
             {view === 'cards' &&
               <div className={styles.cards}>
                 {tokens.map((token: any, key: number) => (
-                  <ProxyCard name={token.metadata.agentNickname} tokenId={token.idInCollection} soul={token.targetSoul.address} role={token.metadata.positionName} collectionName={token.collection.name} valid={moment(token.metadata.expiration).format('DD MMM YYYY hh:mm:ss')} key={key}/>
+                  <ProxyCard name={token.metadata.agentNickname} tokenId={token.idInCollection} soul={token.targetSoul.address} role={token.metadata.positionName} collectionName={token.collection.name} collectionAddress={token.collection.address} valid={moment(token.metadata.expiration).format('DD MMM YYYY hh:mm:ss')} key={key}/>
                 ))}
               </div>
             }

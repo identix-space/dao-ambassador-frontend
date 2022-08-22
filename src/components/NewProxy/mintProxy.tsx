@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {Button, Card, Input, P, Textarea, SelectBlock, Loader, Modal} from '../../components';
 import {createMetaData} from '../../utils/misc';
 import {useValueStorage} from '../Select/valueStorage';
-import {useAddEventTokenCreateMutation, useMetadataCreateMutation} from '../../generated/graphql';
+import {useAddEventTokenCreateMutation, useMetadataCreateMutation, MyCollectionsDocument} from '../../generated/graphql';
 import {mintSbt} from '../../utils/web3smarts';
 import {ContractDeployResultType} from './index';
 
@@ -14,7 +14,12 @@ const errorStyleSelect = {border: '2px solid red', borderRadius: '15px'};
 export const MintProxy = () => {
 
   const [metadataCreateMutation] = useMetadataCreateMutation();
-  const [addEventTokenCreateMutation] = useAddEventTokenCreateMutation();
+  const [addEventTokenCreateMutation] = useAddEventTokenCreateMutation({
+    refetchQueries: [
+      {query: MyCollectionsDocument},
+      'myCollections'
+    ]
+  });
   const [isModalShown, setIsModalShown] = useState(false);
   const [contractDeployResult, setContractDeployResult] = React.useState<ContractDeployResultType>(null);
   const [loadDeployment, setLoadDeployment] = useState<boolean>(false);

@@ -3,7 +3,7 @@ import styles from '../../styles/Account.module.scss';
 import Image from 'next/image';
 import {Button, Copy, Loader, Modal, P} from '../../components';
 import useWallet from '../../hooks/useWallet';
-import {useAddEventSoulCreateMutation, useWhoamiQuery} from '../../generated/graphql';
+import {useAddEventSoulCreateMutation, useWhoamiQuery, WhoamiDocument} from '../../generated/graphql';
 import stylesPlus from '../../styles/Collections.module.scss';
 import {deployContract} from '../../utils/deploySmartContract';
 import {ContractDeployResultType} from '../../components/NewProxy';
@@ -13,7 +13,12 @@ import {ContractDeployResultType} from '../../components/NewProxy';
 export default function AccountPage(): ReactNode {
   const {context} = useWallet();
   const {data} = useWhoamiQuery();
-  const [addEventSoulCreateMutation] = useAddEventSoulCreateMutation();
+  const [addEventSoulCreateMutation] = useAddEventSoulCreateMutation({
+    refetchQueries: [
+      {query: WhoamiDocument},
+      'whoami'
+    ]
+  });
   const [isModalShown, setIsModalShown] = useState(false);
   const [contractDeployResult, setContractDeployResult] = React.useState<ContractDeployResultType>(null);
   const [loadDeployment, setLoadDeployment] = useState<boolean>(false);
@@ -62,13 +67,13 @@ export default function AccountPage(): ReactNode {
           <Image loader={() => `https://avatars.dicebear.com/api/adventurer-neutral/${context.account}.svg`} src={`https://avatars.dicebear.com/api/adventurer-neutral/${context.account}.svg`} objectFit="contain" layout="fill"/>
         </div>
         <div className={styles.user_info}>
-          <P size="l" weight="bold">{context.account}</P>
+          <P size="l" weight="bold">{context.account}<Copy text={context.account} style={{marginLeft: '10px', verticalAlign: '-2px'}}/></P>
           <div className={styles.safe_account}><span>Gnosis safe account</span></div>
         </div>
       </div>
       <P size="l" weight="bold">My souls</P>
       <div className={styles.souls}>
-        {data && data.whoami.souls && data.whoami.souls.length > 0
+        {data && data.whoami.souls && data.whoami.souls.length > 0 && context.account
           ? <>
             <div className={styles.souls_header}>
               <P size="s" weight="bold">ADDRESS</P>
@@ -79,7 +84,7 @@ export default function AccountPage(): ReactNode {
               {data.whoami?.souls.map((soul, key) => (
                 <div className={styles.soul_row} key={key}>
                   <P size="s" weight="bold">{soul.address}<Copy text={soul.address}/></P>
-                  <P size="s" weight="bold">{soul.address}<Copy text={soul.address}/></P>
+                  <P size="s" weight="bold">{context.account}<Copy text={context.account}/></P>
                 </div>))}
             </div>
           </>

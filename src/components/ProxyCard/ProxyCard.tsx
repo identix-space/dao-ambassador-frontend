@@ -1,12 +1,13 @@
 import React from 'react';
 import {ProxyCardProps} from './ProxyCard.props';
 import styles from './ProxyCard.module.scss';
-import {Copy, P} from '..';
+import {Button, Copy, P} from '..';
 import {startAndEnd} from '../../utils/misc';
 import Image from 'next/image';
 import useWallet from '../../hooks/useWallet';
+import Link from 'next/link';
 
-export const ProxyCard = ({name, tokenId, soul, role, collectionName, valid, ...props}: ProxyCardProps): JSX.Element => {
+export const ProxyCard = ({name, tokenId, soul, role, collectionName, collectionAddress, valid, ...props}: ProxyCardProps): JSX.Element => {
   const {context} = useWallet();
 
   return (
@@ -48,6 +49,11 @@ export const ProxyCard = ({name, tokenId, soul, role, collectionName, valid, ...
           <P weight="bold">{valid}</P>
         </div>
       </div>
+      <Link href={{pathname: `/collections/${tokenId}`, query: {collectionAddress: `${collectionAddress}`}}}>
+        <a>
+          <Button size="l" style={{height: '50px'}}>Details
+          </Button>
+        </a></Link>
     </div>
   );
 };

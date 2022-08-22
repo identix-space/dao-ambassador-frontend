@@ -1,0 +1,30 @@
+.button {
+  position: absolute;
+  left: 50px;
+  top: -30px;
+  font-family: 'Gilroy', sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  color: #150B4D;
+  font-weight: 500;
+  background: transparent;
+  padding-left: 28px;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+
+  &:active {
+    opacity: .8;
+  }
+
+  &::before {
+    position: inherit;
+    content: '';
+    width: 16px;
+    height: 18px;
+    background: url('/assets/arrow.svg') center/contain no-repeat;
+    transform: rotate(-90deg);
+    left: 0;
+    top: 4px;
+  }
+}

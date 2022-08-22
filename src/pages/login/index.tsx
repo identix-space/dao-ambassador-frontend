@@ -113,7 +113,7 @@ export default function LoginPage(): ReactNode {
       {/*<Card style={{marginTop: '40px', padding: '60px 100px'}}>*/}
       {/*  <Input placeholder="Enter your Gnosis Safe address"/>*/}
       {/*  <div className={styles.button_wrapper}>*/}
-      {/*    <Button size="l" disabled={true}>Continue</Button>*/}
+      {/*    <BackButton size="l" disabled={true}>Continue</BackButton>*/}
       {/*  </div>*/}
       {/*</Card>*/}
     </>

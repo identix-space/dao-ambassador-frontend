@@ -26,7 +26,7 @@ export default function WelcomePage(): ReactNode {
       </div>
       <div className={styles.buttons}>
         <Button onClick={() => redirect('/login')}>Delegate powers</Button>
-        <Button view="transparent" size="auto">Verify the ambassador</Button>
+        <Button>Verify the ambassador</Button>
       </div>
     </>
   );

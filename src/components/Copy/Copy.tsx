@@ -8,7 +8,9 @@ export const Copy = ({text, ...props}: CopyProps): JSX.Element => {
       className={styles.copy}
       {...props}
       onClick={() => {
-        navigator.clipboard.writeText(text);
+        if (typeof text === 'string') {
+          navigator.clipboard.writeText(text);
+        }
       }}
     />
   );
