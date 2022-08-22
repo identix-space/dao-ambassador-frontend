@@ -14,6 +14,7 @@ export default function MyApp({Component, pageProps}: AppProps): ReactNode {
     const isGnosis = window.location.ancestorOrigins[0] === 'https://gnosis-safe.io';
     if (isGnosis) {
       sessionStorage.setItem('isGnosisAvailable', String(isGnosis));
+      sessionStorage.setItem('wallet', 'gnosisSafe');
     }
   }, []);
 

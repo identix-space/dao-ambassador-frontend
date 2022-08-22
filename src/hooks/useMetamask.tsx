@@ -128,7 +128,6 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
   };
 
   const refreshData = () => {
-    sessionStorage.removeItem('wallet');
     sessionStorage.removeItem('account');
     setChainId(1);
     setIsActive(false);

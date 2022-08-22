@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import {AbiItem} from 'web3-utils';
 import Web3 from 'web3';
+import {gnosisSafe} from './gnosisSafe';
 
 //
 
@@ -3940,22 +3941,25 @@ export const soulByteCode = {
   sourceMap: '58:689:0:-:0;;;227:59;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;273:6;265:5;;:14;;;;;;;;;;;;;;;;;;227:59;58:689;;7:143:1;64:5;95:6;89:13;80:22;;111:33;138:5;111:33;:::i;:::-;7:143;;;;:::o;156:351::-;226:6;275:2;263:9;254:7;250:23;246:32;243:119;;;281:79;;:::i;:::-;243:119;401:1;426:64;482:7;473:6;462:9;458:22;426:64;:::i;:::-;416:74;;372:128;156:351;;;;:::o;594:96::-;631:7;660:24;678:5;660:24;:::i;:::-;649:35;;594:96;;;:::o;696:126::-;733:7;773:42;766:5;762:54;751:65;;696:126;;;:::o;951:117::-;1060:1;1057;1050:12;1074:122;1147:24;1165:5;1147:24;:::i;:::-;1140:5;1137:35;1127:63;;1186:1;1183;1176:12;1127:63;1074:122;:::o;58:689:0:-;;;;;;;'
 };
 
-const web3 = new Web3(Web3.givenProvider);
-
 export type deployContractVariant = 'soulBound' | 'soul';
 
-export const deployContract = async (variant: deployContractVariant, name?: string, symbol?: string, soulAddr?: string) => {
+export const deployContract = async (variant: deployContractVariant, deployAddr: string, name?: string, symbol?: string, soulAddr?: string) => {
+
+  if (sessionStorage.getItem('isGnosisAvailable') === 'true') {
+    await gnosisSafe.connectEagerly();
+  }
+  const web3 = new Web3(gnosisSafe.provider ? gnosisSafe.provider : Web3.givenProvider);
+
   const abi = variant === 'soul' ? soulAbi : soulBoundAbi;
   const bytecode = variant === 'soul' ? soulByteCode : soulBoundByteCode;
-  const currentAccounts = await web3.eth.getAccounts();
-  const args = variant === 'soul' ? [currentAccounts[0]] : [name, symbol, soulAddr];
+  const args = variant === 'soul' ? [deployAddr] : [name, symbol, soulAddr];
 
   console.log({abi});
   // deploy contract
   const contract = new web3.eth.Contract(abi as unknown as AbiItem, '0x0000000000000000000000000000000000000000');
   const deployTx = contract.deploy({data: bytecode.object, arguments: args});
 
-  const res = await deployTx.send({from: currentAccounts[0], gas: 4500000, gasPrice: '30000000000'}); // test gas: 1500000 for soul , gas: 4500000 for soulBound
+  const res = await deployTx.send({from: deployAddr, gas: 4500000, gasPrice: '30000000000'}); // test gas: 1500000 for soul , gas: 4500000 for soulBound
   console.log({deployTx});
   console.log({res});
   return res;

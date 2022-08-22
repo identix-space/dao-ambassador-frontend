@@ -20,14 +20,15 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({children}) => {
   const [wallets, setWallets] = useState<string | null>('');
   const router = useRouter();
   const pathIsPublic = publicPaths.includes(router.pathname);
+  const {contextGnosis} = useWallet();
   // eslint-disable-next-line complexity
   useEffect(() => {
     const adr = sessionStorage.getItem('account');
+    const wallet = sessionStorage.getItem('wallet');
     if (!pathIsPublic && !adr) {
       redirect('/welcome');
-      sessionStorage.removeItem('wallet');
       sessionStorage.removeItem('account');
-    } else if (pathIsPublic && adr) {
+    } else if (pathIsPublic && adr && wallet !== 'gnosisSafe') {
       redirect('/collections');
     }
   }, []);
@@ -41,6 +42,17 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({children}) => {
       clearInterval(interval);
     };
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      const isGnosis = sessionStorage.getItem('isGnosisAvailable');
+      if (isGnosis === 'true') {
+        await contextGnosis.connect();
+        console.log('qwer');
+        console.log(contextGnosis.account);
+      }
+    })();
+  }, [router]);
 
   if (wallets === 'metamask') {
     return (

@@ -1,6 +1,6 @@
-import React, {ReactNode, useEffect} from 'react';
+import React, {ReactNode, useState} from 'react';
 import Image from 'next/image';
-import {P, Card} from '../../components';
+import {P, Card, Input, Button} from '../../components';
 import styles from '../../styles/Login.module.scss';
 import Metamask from '../../../public/assets/metamask.svg';
 import Gnosis from '../../../public/assets/gnosis.svg';
@@ -10,63 +10,45 @@ import {TOKEN} from '../../constants/localStorage';
 
 export default function LoginPage(): ReactNode {
 
-  const {contextMetamask, contextGnosis} = useWallet();
+  const {contextMetamask} = useWallet();
   const [loadMetamask, setLoadMetamask] = React.useState(false);
   const [loadGnosis, setLoadGnosis] = React.useState(false);
-  const [gnosisAvailable, setGnosisAvailable] = React.useState(false);
 
   const connectMetamaskWallet = async () => {
-    if (!gnosisAvailable) {
-      setLoadMetamask(true);
-      try {
-        await contextMetamask.connect();
-        const acc = sessionStorage.getItem('account');
-        if (acc) {
-          redirect('/collections');
-        } else {
-          setLoadMetamask(false);
-        }
-      } catch (e: any) {
-        console.log('error', e.message);
-        sessionStorage.removeItem('wallet');
-        sessionStorage.removeItem('account');
-        sessionStorage.removeItem(TOKEN);
+    setLoadMetamask(true);
+    try {
+      await contextMetamask.connect();
+      const acc = sessionStorage.getItem('account');
+      if (acc) {
+        redirect('/collections');
+      } else {
         setLoadMetamask(false);
       }
-    } else {
-      redirect('localhost:3000/welcome');
+    } catch (e: any) {
+      console.log('error', e.message);
+      sessionStorage.removeItem('wallet');
+      sessionStorage.removeItem('account');
+      sessionStorage.removeItem(TOKEN);
+      setLoadMetamask(false);
     }
+
   };
 
   const connectGnosisWallet = async () => {
-    if (gnosisAvailable) {
-      setLoadGnosis(true);
-      try {
-        await contextGnosis.connect();
-        const acc = sessionStorage.getItem('account');
-        if (acc) {
-          redirect('/collections');
-        } else {
-          setLoadGnosis(false);
-        }
-      } catch (e: any) {
-        console.log('error', e.message);
-        sessionStorage.removeItem('wallet');
-        sessionStorage.removeItem('account');
-        sessionStorage.removeItem(TOKEN);
-        setLoadGnosis(false);
-      }
-    } else {
-      redirect('https://gnosis-safe.io/app');
-    }
+    setLoadGnosis(true);
   };
 
-  useEffect(() => {
-    const gn = sessionStorage.getItem('isGnosisAvailable');
-    if (gn === 'true') {
-      setGnosisAvailable(true);
+  const [errorInput, setErrorInput] = useState<boolean>(false);
+
+  const redirectToGnosis = () => {
+    const addr = (document.getElementById('gnosisAddress') as HTMLInputElement).value.trim();
+    if (!addr) {
+      setErrorInput(true);
+      return;
     }
-  }, []);
+    const uri = `https://gnosis-safe.io/app/${addr}/apps?appUrl=https://sbt.identix.space/welcome`;
+    redirect(uri);
+  };
 
 
   return (
@@ -103,19 +85,10 @@ export default function LoginPage(): ReactNode {
       }
       {loadGnosis &&
       <Card style={{marginTop: '40px'}}>
-        <P size="l" weight="bold">Connecting Metamask</P>
-        <div className={styles.loader_wrapper}>
-          <div className={styles.loader}/>
-          <div className={styles.loader_icon_gnosis}/>
-        </div>
+        <Input placeholder={'Enter your Gnosis Safe address'} id={'gnosisAddress'} style={errorInput ? {border: '2px solid red'} : undefined} onChange={() => setErrorInput(false)}/>
+        <Button size="l" style={{marginTop: '40px'}} onClick={() => redirectToGnosis()}>CONTINUE</Button>
       </Card>
       }
-      {/*<Card style={{marginTop: '40px', padding: '60px 100px'}}>*/}
-      {/*  <Input placeholder="Enter your Gnosis Safe address"/>*/}
-      {/*  <div className={styles.button_wrapper}>*/}
-      {/*    <BackButton size="l" disabled={true}>Continue</BackButton>*/}
-      {/*  </div>*/}
-      {/*</Card>*/}
     </>
   );
 }

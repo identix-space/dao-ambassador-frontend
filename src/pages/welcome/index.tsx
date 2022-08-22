@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import Image from 'next/image';
 import {P, Button} from '../../components';
 import styles from '../../styles/Welcome.module.scss';
@@ -8,6 +8,15 @@ import Welcome3 from '../../../public/assets/welcome3.png';
 import {redirect} from '../../utils/misc';
 
 export default function WelcomePage(): ReactNode {
+
+  const [gnosisAvailable, setGnosisAvailable] = React.useState(false);
+
+  useEffect(() => {
+    const gn = sessionStorage.getItem('isGnosisAvailable');
+    if (gn === 'true') {
+      setGnosisAvailable(true);
+    }
+  }, []);
 
   return (
     <>
@@ -25,7 +34,7 @@ export default function WelcomePage(): ReactNode {
         </div>
       </div>
       <div className={styles.buttons}>
-        <Button onClick={() => redirect('/login')}>Delegate powers</Button>
+        <Button onClick={() => gnosisAvailable ? redirect('/collections') : redirect('/login')}>Delegate powers</Button>
         <Button>Verify the ambassador</Button>
       </div>
     </>

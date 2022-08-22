@@ -6,11 +6,14 @@ import {Button} from '../Button/Button';
 import styles from '../../styles/Login.module.scss';
 import {deployContract} from '../../utils/deploySmartContract';
 import {useAddEventCollectionCreateMutation} from '../../generated/graphql';
+import useWallet from '../../hooks/useWallet';
 
 export type ContractDeployResultType = 'deployed' | 'not-deployed' | null
 
 // eslint-disable-next-line complexity
 export const NewProxy = () => {
+
+  const {context} = useWallet();
 
   const [addEventCollectionCreateMutation] = useAddEventCollectionCreateMutation();
 
@@ -23,6 +26,7 @@ export const NewProxy = () => {
   const [contractDeployResult, setContractDeployResult] = React.useState<ContractDeployResultType>(null);
   const [contractAddressAfterDeploy, setContractAddressAfterDeploy] = React.useState<string>('');
 
+  // eslint-disable-next-line complexity
   const createNewProxyGroup = async () => {
     setContractDeployResult(null);
     setContractAddressAfterDeploy('');
@@ -43,8 +47,7 @@ export const NewProxy = () => {
     }
     try {
       setLoad(true);
-      const contract = await deployContract('soulBound', name, symbol, addr); //addr = 0xC7ceDD725a1EB415fcA4CAEd7b754628f41A3325
-      console.log({contract});
+      const contract = await deployContract('soulBound', context.account ? context.account : '', name, symbol, addr);
       if (contract) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

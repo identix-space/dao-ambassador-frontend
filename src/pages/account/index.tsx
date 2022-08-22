@@ -27,7 +27,7 @@ export default function AccountPage(): ReactNode {
     setLoadDeployment(true);
     setContractDeployResult(null);
     try {
-      const deployResult = await deployContract('soul');
+      const deployResult = await deployContract('soul', context.account ? context.account : '');
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (deployResult._address) {

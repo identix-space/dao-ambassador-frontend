@@ -11,12 +11,12 @@ export interface ModalProps {
     hide?: () => void;
     modalContent?: string;
     modalTitle?: string;
-    children?: React.ReactNode
+    children?: React.ReactNode,
+    isNotProxyOwner?: boolean,
+    notExpired?: boolean
 }
 
-export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalTitle, children}) => {
-  const [notExpired] = useState(false);
-  const [isNotProxyOwner] = useState(false);
+export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalTitle, children, isNotProxyOwner, notExpired}) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -34,16 +34,18 @@ export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalTitle,
           : <div className={styles.content}>
             <P size="l" weight="bold">{modalTitle}</P>
             <div className={styles.results}>
-              <div className={styles.result}>
-                <Image src={notExpired ? CheckGreen : CheckRed} width={37} height={37}/>
-                {notExpired
-                  ? <span>Proxy is not expired</span>
-                  : <span>Proxy is expired</span>
-                }
-              </div>
+              {notExpired && (
+                <div className={styles.result}>
+                  <Image src={CheckGreen} width={37} height={37}/>
+                  <span>Proxy is not expired</span>
+                </div>
+              )}
               <div className={styles.result}>
                 <Image src={isNotProxyOwner ? CheckGreen : CheckRed} width={37} height={37}/>
-                <span>The entered Soul is the Proxy owner</span>
+                {isNotProxyOwner
+                  ? <span>The entered Soul is the Proxy owner</span>
+                  : <span>The entered Soul is not the Proxy owner</span>
+                }
               </div>
             </div>
           </div>

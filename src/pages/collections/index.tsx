@@ -1,12 +1,13 @@
 import React, {ReactNode, useEffect, useState} from 'react';
 import styles from '../../styles/Collections.module.scss';
-import {Button, Card, Input, Modal, P, ProxyCard, RoleSwitch} from '../../components';
+import {Modal, P, ProxyCard, RoleSwitch} from '../../components';
 import cn from 'classnames';
 import {ProxiesTable} from '../../components';
 import {useRoleStore} from '../../store/store';
 import {useMyCollectionsLazyQuery} from '../../generated/graphql';
 import {NewProxyBtn} from '../../components/NewProxyBtn/NewProxyBtn';
 import moment from 'moment';
+import {Verifier} from '../../components/Verifier';
 
 export default function CollectionsPage(): ReactNode {
   const [isModalShown, setIsModalShown] = useState(false);
@@ -70,19 +71,7 @@ export default function CollectionsPage(): ReactNode {
           </>
         }
         {role === 'verifier' &&
-          <>
-            <P size="l" weight="bold">Verify the Proxy</P>
-            <P>Verify Proxy ownership and ensure it’s not expired</P>
-            <Card style={{marginTop: '40px', gap: '18px'}}>
-              <P size="sm" weight="bold">Identify the Proxy</P>
-              <Input placeholder="Issuer Address"/>
-              <Input placeholder="Proxy Group"/>
-              <Input placeholder="Proxy ID"/>
-              <P size="sm" weight="bold">Identify the expected Ambassador </P>
-              <Input placeholder="Ambassador’s Soul"/>
-              <Button size="l" style={{marginTop: '40px'}}>Verify</Button>
-            </Card>
-          </>
+          <Verifier/>
         }
       </div>
       <Modal modalTitle="Verification result" isShown={isModalShown} hide={() => setIsModalShown(false)}/>

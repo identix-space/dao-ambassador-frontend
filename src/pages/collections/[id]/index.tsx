@@ -1,20 +1,27 @@
-import React, {ReactNode, useEffect} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import styles from '../../../styles/ProxyDetails.module.scss';
 import {BackButton, Button, Copy, Loader, P} from '../../../components';
 import {startAndEnd} from '../../../utils/misc';
 import {useRouter} from 'next/router';
 import {useGetTokenLazyQuery} from '../../../generated/graphql';
 import moment from 'moment';
+import {collectionOwner} from '../../../utils/web3smarts';
 
 export default function ProxyDetailsPage(): ReactNode {
   const router = useRouter();
   const [getToken, {data}] = useGetTokenLazyQuery();
 
+  const [ownerAddress, setOwnerAddress] = useState<string>('');
+
   useEffect(() => {
-    if (router && router.query && router.query.collectionAddress && router.query.id) {
-      getToken({variables: {collectionAddress: router.query.collectionAddress.toString(), tokenId: router.query.id.toString()}});
-    }
+    (async () => {
+      if (router && router.query && router.query.collectionAddress && router.query.id) {
+        getToken({variables: {collectionAddress: router.query.collectionAddress.toString(), tokenId: router.query.id.toString()}});
+        setOwnerAddress(await collectionOwner(router.query.collectionAddress.toString()));
+      }
+    })();
   }, [router.query]);
+
 
   return (
     <>
@@ -22,7 +29,7 @@ export default function ProxyDetailsPage(): ReactNode {
       {data
         ? <>
           <P size="l" weight="bold" style={{marginBottom: '15px'}}>Proxy ID: {startAndEnd(data.token.idInCollection, 5, 5)}<Copy text={data.token.idInCollection} style={{marginLeft: '10px'}}/></P>
-          <P weight="bold">Issued by: {startAndEnd('0x3436r4ygf6743dsafdf8332d923uf34c', 5, 3)}</P>
+          <P weight="bold">Issued by: {startAndEnd(ownerAddress, 5, 3)}</P>
           <div className={styles.proxy_card}>
             <div className={styles.top}>
               <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
