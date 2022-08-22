@@ -6,7 +6,7 @@ import {gnosisSafe} from './gnosisSafe';
 
 
 export const mintSbt = async (contractAddress: string, addressTo: string, metadataId: number) => {
-  if (sessionStorage.getItem('isGnosisAvailable') === 'true') {
+  if (localStorage.getItem('isGnosisAvailable') === 'true') {
     await gnosisSafe.connectEagerly();
   }
   const web3 = new Web3(gnosisSafe.provider ? gnosisSafe.provider : Web3.givenProvider);
@@ -38,7 +38,7 @@ export const verify = async ({issueAddress, proxyAddress, tokenId, ownerOfAddres
   const contract = new web3.eth.Contract(soulBoundAbi as unknown as AbiItem, proxyAddress);
   const id = BigInt(tokenId);
   const tokenData = await contract.methods.ownerOf(id).call({from: currentAccounts[0]});
-  const ownerData = await contract.methods.owner().call({from: currentAccounts[0]});
+  const ownerData = await contract.methods.collectionOwner().call({from: currentAccounts[0]});
   console.log({tokenData});
   console.log({ownerData});
   return {isOwner: issueAddress === ownerData, isOwnerOf: ownerOfAddress === tokenData};
@@ -48,5 +48,5 @@ export const collectionOwner = async (address: string): Promise<string> => {
   const web3 = new Web3(Web3.givenProvider);
   const currentAccounts = await web3.eth.getAccounts();
   const contract = new web3.eth.Contract(soulBoundAbi as unknown as AbiItem, address);
-  return await contract.methods.owner().call({from: currentAccounts[0]});
+  return await contract.methods.collectionOwner().call({from: currentAccounts[0]});
 };

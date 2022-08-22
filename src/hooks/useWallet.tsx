@@ -11,7 +11,7 @@ import {redirect} from '../utils/misc';
 const publicPaths = ['/login', '/welcome'];
 
 const isWindow = typeof window !== 'undefined';
-const wallet = isWindow && sessionStorage.getItem('wallet');
+const wallet = isWindow && localStorage.getItem('wallet');
 
 export const WalletContext = wallet === 'metamask' ? MetamaskContext : wallet === 'gnosisSafe' ? GnosisContext : createContext<WalletData>(initialWalletData);
 
@@ -23,11 +23,11 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({children}) => {
   const {contextGnosis} = useWallet();
   // eslint-disable-next-line complexity
   useEffect(() => {
-    const adr = sessionStorage.getItem('account');
-    const wallet = sessionStorage.getItem('wallet');
+    const adr = localStorage.getItem('account');
+    const wallet = localStorage.getItem('wallet');
     if (!pathIsPublic && !adr) {
       redirect('/welcome');
-      sessionStorage.removeItem('account');
+      localStorage.removeItem('account');
     } else if (pathIsPublic && adr && wallet !== 'gnosisSafe') {
       redirect('/collections');
     }
@@ -35,7 +35,7 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({children}) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setWallets(sessionStorage.getItem('wallet'));
+      setWallets(localStorage.getItem('wallet'));
     }, 1000);
 
     return () => {
@@ -45,7 +45,7 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({children}) => {
 
   useEffect(() => {
     (async () => {
-      const isGnosis = sessionStorage.getItem('isGnosisAvailable');
+      const isGnosis = localStorage.getItem('isGnosisAvailable');
       if (isGnosis === 'true') {
         await contextGnosis.connect();
         console.log('qwer');

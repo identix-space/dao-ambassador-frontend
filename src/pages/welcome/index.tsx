@@ -12,7 +12,7 @@ export default function WelcomePage(): ReactNode {
   const [gnosisAvailable, setGnosisAvailable] = React.useState(false);
 
   useEffect(() => {
-    const gn = sessionStorage.getItem('isGnosisAvailable');
+    const gn = localStorage.getItem('isGnosisAvailable');
     if (gn === 'true') {
       setGnosisAvailable(true);
     }

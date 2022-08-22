@@ -66,8 +66,8 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
 
   const connect = async () => {
     await connectWallet((chain: number, accounts: Account) => {
-      sessionStorage.setItem('wallet', 'metamask');
-      sessionStorage.setItem('account', accounts[0]);
+      localStorage.setItem('wallet', 'metamask');
+      localStorage.setItem('account', accounts[0]);
 
       setAccount(accounts[0]);
       setChainId(chain);
@@ -128,7 +128,7 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
   };
 
   const refreshData = () => {
-    sessionStorage.removeItem('account');
+    localStorage.removeItem('account');
     setChainId(1);
     setIsActive(false);
 
@@ -149,11 +149,11 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
   };
 
   useEffect(() => {
-    setAccount(sessionStorage.getItem('account'));
-    setIsActive(Boolean(sessionStorage.getItem('wallet')));
+    setAccount(localStorage.getItem('account'));
+    setIsActive(Boolean(localStorage.getItem('wallet')));
   }, []);
   useEffect(() => {
-    const wallet = sessionStorage.getItem('wallet');
+    const wallet = localStorage.getItem('wallet');
     if (!window.ethereum || !wallet) {
       return;
     }
@@ -165,7 +165,7 @@ export const MetamaskProvider: React.FC<WalletProviderProps> = ({children}) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setWallet(sessionStorage.getItem('wallet'));
+      setWallet(localStorage.getItem('wallet'));
     }, 1000);
 
     return () => {

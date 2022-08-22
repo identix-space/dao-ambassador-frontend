@@ -18,7 +18,7 @@ export default function LoginPage(): ReactNode {
     setLoadMetamask(true);
     try {
       await contextMetamask.connect();
-      const acc = sessionStorage.getItem('account');
+      const acc = localStorage.getItem('account');
       if (acc) {
         redirect('/collections');
       } else {
@@ -26,9 +26,9 @@ export default function LoginPage(): ReactNode {
       }
     } catch (e: any) {
       console.log('error', e.message);
-      sessionStorage.removeItem('wallet');
-      sessionStorage.removeItem('account');
-      sessionStorage.removeItem(TOKEN);
+      localStorage.removeItem('wallet');
+      localStorage.removeItem('account');
+      localStorage.removeItem(TOKEN);
       setLoadMetamask(false);
     }
 

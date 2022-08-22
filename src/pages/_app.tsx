@@ -13,8 +13,8 @@ export default function MyApp({Component, pageProps}: AppProps): ReactNode {
   useEffect(() => {
     const isGnosis = window.location.ancestorOrigins[0] === 'https://gnosis-safe.io';
     if (isGnosis) {
-      sessionStorage.setItem('isGnosisAvailable', String(isGnosis));
-      sessionStorage.setItem('wallet', 'gnosisSafe');
+      localStorage.setItem('isGnosisAvailable', String(isGnosis));
+      localStorage.setItem('wallet', 'gnosisSafe');
     }
   }, []);
 

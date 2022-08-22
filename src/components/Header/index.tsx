@@ -14,7 +14,7 @@ export function Header() {
   const {context} = useWallet();
 
   const logOut = () => {
-    sessionStorage.clear();
+    localStorage.clear();
     redirect('/welcome');
   };
 

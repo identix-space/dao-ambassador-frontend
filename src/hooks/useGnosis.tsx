@@ -51,14 +51,14 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
     // setError(errorM.message);
     // console.log({error});
 
-    // sessionStorage.removeItem('wallet');
-    // sessionStorage.removeItem('account');
+    // localStorage.removeItem('wallet');
+    // localStorage.removeItem('account');
 
     if (accounts) {
       console.log(accounts[0]);
       setAccount(accounts[0]);
-      sessionStorage.setItem('account', accounts[0]);
-      sessionStorage.setItem('wallet', 'gnosisSafe');
+      localStorage.setItem('account', accounts[0]);
+      localStorage.setItem('wallet', 'gnosisSafe');
       setIsActive(true);
     }
   };
@@ -116,14 +116,14 @@ export const GnosisProvider: React.FC<WalletProviderProps> = ({children}) => {
     console.log(window.location);
     if (accounts) {
       setAccount(accounts[0]);
-      sessionStorage.setItem('account', accounts[0]);
+      localStorage.setItem('account', accounts[0]);
     }
   }, [accounts]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setWallet(sessionStorage.getItem('wallet'));
-      setAccount(String(sessionStorage.getItem('account')));
+      setWallet(localStorage.getItem('wallet'));
+      setAccount(String(localStorage.getItem('account')));
     }, 1000);
 
     return () => {
