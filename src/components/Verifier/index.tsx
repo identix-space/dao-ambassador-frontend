@@ -58,7 +58,7 @@ export const Verifier = () => {
       <Input placeholder="Issuer Address" id={'issueAddress'} style={error.issueAddressError ? errorStyle : undefined} onChange={() => setError({...error, issueAddressError: false})}/>
       <Input placeholder="Proxy Group" id={'proxyAddress'} style={error.proxyAddressError ? errorStyle : undefined} onChange={() => setError({...error, proxyAddressError: false})}/>
       <Input placeholder="Proxy ID" id={'tokenId'} style={error.tokenIdError ? errorStyle : undefined} onChange={() => setError({...error, tokenIdError: false})}/>
-      <P size="sm" weight="bold">Identify the expected Ambassador </P>
+      <P size="sm" weight="bold">Identify the Ambassador </P>
       <Input placeholder="Ambassador’s Soul" id={'ownerOfAddress'} style={error.ownerOfAddressError ? errorStyle : undefined} onChange={() => setError({...error, ownerOfAddressError: false})}/>
       <Button size="l" style={{marginTop: '40px'}} onClick={verifyOnClick}>Verify</Button>
     </Card>

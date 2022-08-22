@@ -7,6 +7,12 @@
   border-radius: 15px;
   padding: 4px;
   margin-bottom: 30px;
+
+  @media screen and (max-width: 1440px) {
+    width: 600px;
+    height: 55px;
+    margin-bottom: 20px;
+  }
 }
 
 .role {
@@ -53,6 +59,10 @@
       border-radius: 1px;
       transform: translateZ(-1px);
     }
+  }
+
+  @media screen and (max-width: 1440px) {
+    font-size: 19px;
   }
 }
 

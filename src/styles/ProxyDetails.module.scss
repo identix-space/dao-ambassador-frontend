@@ -4,6 +4,10 @@
     background: #FFFFFF;
     border-radius: 20px;
     margin-top: 40px;
+
+    @media screen and (max-width: 1440px) {
+        width: 860px;
+    }
 }
 
 .top {
@@ -25,6 +29,11 @@
         bottom: -115px;
         background: url('/assets/figure.png') center/contain no-repeat;
     }
+
+    @media screen and (max-width: 1440px) {
+        padding: 35px 80px 50px;
+        height: 350px;
+    }
 }
 
 .role {
@@ -41,4 +50,8 @@
     flex-direction: column;
     gap: 40px;
     padding: 60px 100px 10px;
+
+    @media screen and (max-width: 1440px) {
+        padding: 55px 80px 10px;
+    }
 }
