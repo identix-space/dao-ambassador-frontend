@@ -16,16 +16,6 @@ export default function CollectionsPage(): ReactNode {
   const {role} = useRoleStore();
   const [getCollections, {data}] = useMyCollectionsLazyQuery();
 
-  const getTokens = (data: any) => {
-    const arr: any[] = [];
-    data.whoami.collections.forEach((collection: any) => {
-      collection.tokens.forEach((token: any) => {
-        arr.push(token);
-      });
-    });
-    setTokens(arr);
-  };
-
   useEffect(() => {
     getCollections({variables: {onlyMine: true}, fetchPolicy: 'no-cache'});
   }, []);
@@ -41,6 +31,16 @@ export default function CollectionsPage(): ReactNode {
       getTokens(data);
     }
   }, [data]);
+
+  const getTokens = (data: any) => {
+    const arr: any[] = [];
+    data.whoami.collections.forEach((collection: any) => {
+      collection.tokens.forEach((token: any) => {
+        arr.push(token);
+      });
+    });
+    setTokens(arr);
+  };
 
   return (
     <>

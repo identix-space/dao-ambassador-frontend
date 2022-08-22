@@ -6,6 +6,7 @@ import Welcome1 from '../../../public/assets/welcome1.png';
 import Welcome2 from '../../../public/assets/welcome2.png';
 import Welcome3 from '../../../public/assets/welcome3.png';
 import {redirect} from '../../utils/misc';
+import Link from 'next/link';
 
 export default function WelcomePage(): ReactNode {
 
@@ -35,7 +36,11 @@ export default function WelcomePage(): ReactNode {
       </div>
       <div className={styles.buttons}>
         <Button onClick={() => gnosisAvailable ? redirect('/collections') : redirect('/login')}>Delegate powers</Button>
-        <Button>Verify the ambassador</Button>
+        <Link href="/verify">
+          <a>
+            <Button>Verify the ambassador</Button>
+          </a>
+        </Link>
       </div>
     </>
   );
